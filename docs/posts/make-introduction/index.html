@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    
+    
+    
+    <link rel="stylesheet" href="https://aakatev.github.io/blog/styles/main.min.6ee7efb535d4f1b2eb1ec17e37aafee299090152884e05158ea82ce9ef03dd7f.css">
+
+    <title>
+  Introduction to Make &ndash; Artem&#39;s Digital Garden
+</title>
+  </head>
+  <body class="mb-4">
+    <nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="https://aakatev.github.io/blog/">Artem's Digital Garden</a>
+  </div>
+</nav>
+    
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-lg-6">
+        <div class="blog-post">
+          <h2 class="pb-4 mb-4 border-bottom">Introduction to Make</h2>
+          <p><p>Make is a build automation tool which generates executable from source code. It is really powerful, and dramatically simplifies lives of developers who have to work with compiled languages. Make defines a language that describes relationships between source code, intermediate files, and generated executable. This rules are defined in a special file, called Makefile. Although Make can quickly get complicated, you don&rsquo;t need to know everything to use it in your projects!</p>
+<p>First thing you need to know, any Makefile is just a set of rules structured. Each rule consists of the target, its prerequisites, and command to perform. It is structured the following way:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile"><span style="color:#a6e22e">target</span><span style="color:#f92672">:</span> prereq 1 prereq 2 ... prereq n
+        commands
+</code></pre></div><p>Of course, any Makefile can contain more rules than one. The first rule is called a default rule, and it is conventionally the most general one, also known as final build target. Each rules can be invoked separately, by calling <code>make target</code>. If a rule is a prerequisite for another rule, it will be build implicitly by invoking the target that depends on it.</p>
+<p>Now, let&rsquo;s look at real world example! I have C program that looks the following way:</p>
+<h4 id="mainc">main.c</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;print.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+  printInt(<span style="color:#ae81ff">42</span>);
+}
+</code></pre></div><h4 id="printh">print.h</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printInt</span>(<span style="color:#66d9ef">int</span> x);
+</code></pre></div><h4 id="printc">print.c</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span><span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printInt</span>(<span style="color:#66d9ef">int</span> x) {
+  printf(<span style="color:#e6db74">&#34;%d</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, x);
+}
+</code></pre></div><p>Of course, we can just run <code>gcc *.c</code>, and get done with it! For the purpose of learning Make, let&rsquo;s build it in a way that you would want to build a bigger project, with more dependencies. First let&rsquo;s compile each of the source files into an object files. For the target <code>print.o</code>, prerequisites are <code>print.h</code> and <code>print.c</code>, and command is <code>gcc -c print.c</code> The rule would look like so:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile"><span style="color:#a6e22e">print.o</span><span style="color:#f92672">:</span> print.c print.h 
+         gcc -c print.c  
+</code></pre></div><p>Same can be done for the target <code>main.o</code>. Our default rule, I will call it <code>app</code>, is going to generate <code>a.out</code> binary from compiled object files, which are the prerequisites. Command for the linker is <code>gcc main.o print.o -o a.out</code>. This is the rule:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile"><span style="color:#a6e22e">app</span><span style="color:#f92672">:</span> main.o print.o 
+     gcc main.o print.o -o a.out 
+</code></pre></div><p>Make language also allows to use variables. A variable can be defined using assignment sign, and later used by wrapping its name in <code>$()</code>. One common case is to define compiler as a variable. Another important note, when you build your project, Make only rebuilds targets, if any of the prerequisites has been updated. It saves some time working with bigger projects.  It is useful to have rules for some other build related tasks, such as &ldquo;cleaning&rdquo;, or testing your project.</p>
+<p>Finally, the complete Makefile for this tutorial:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile">CC <span style="color:#f92672">=</span> gcc
+
+<span style="color:#a6e22e">app</span><span style="color:#f92672">:</span> main.o print.o
+     <span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> main.o print.o -o a.out
+
+<span style="color:#a6e22e">main.o</span><span style="color:#f92672">:</span> main.c
+        <span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> -c main.c
+
+<span style="color:#a6e22e">print.o</span><span style="color:#f92672">:</span> print.c print.h
+         <span style="color:#66d9ef">$(</span>CC<span style="color:#66d9ef">)</span> -c print.c
+
+<span style="color:#a6e22e">clean</span><span style="color:#f92672">:</span>
+      rm -f a.out *.o
+</code></pre></div></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>webpack on Artem&#39;s Digital Garden</title>
+    <link>https://aakatev.github.io/blog/tags/webpack/</link>
+    <description>Recent content in webpack on Artem&#39;s Digital Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 21 Apr 2020 08:42:08 -0700</lastBuildDate>
+    
+	<atom:link href="https://aakatev.github.io/blog/tags/webpack/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Three.JS-Webpack Boilerplate</title>
+      <link>https://aakatev.github.io/blog/posts/three-js-webpack-boilerplate/</link>
+      <pubDate>Tue, 21 Apr 2020 08:42:08 -0700</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/posts/three-js-webpack-boilerplate/</guid>
+      <description>Overview Three.JS is an awesome library. It is based on WebGL, and has a straightforward, and well-documented API. However, I found that project&amp;rsquo;s initial setup may require some boilerplate.
+I created some minimal configuration to bootstrap a project, and want to share with everyone. It includes webpack, webpack-dev-server, and prettier. I also included one of three.js demo projects, to test deployment on GitHub pages.
+The boilerplate is available on GitHub, and you can play with the demo here.</description>
+    </item>
+    
+    <item>
+      <title>Multipage Application with Node and Webpack</title>
+      <link>https://aakatev.github.io/blog/posts/node-webpack-application/</link>
+      <pubDate>Sat, 04 Apr 2020 08:42:08 -0700</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/posts/node-webpack-application/</guid>
+      <description>A quick tutorial on how to configure Webpack with multiple outputs. Building Web Applications with Node is easy! There is a great number of frameworks, and tools that help programmer to bootstrap an environment and start working in just a matter of seconds. Some of them generate a bunch of boilerplate, like Create React App, while others help to eliminate it, like Gatsby. In one case, you might have a setup that you might not necessary want, in another, you are bound to certain conventions.</description>
+    </item>
+    
+  </channel>
+</rss>

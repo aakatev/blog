@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hugo on Artem&#39;s Digital Garden</title>
+    <link>https://aakatev.github.io/blog/tags/hugo/</link>
+    <description>Recent content in hugo on Artem&#39;s Digital Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 05 Jul 2020 10:42:08 -0700</lastBuildDate>
+    
+	<atom:link href="https://aakatev.github.io/blog/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Implementing CD Pipeline for Static Website</title>
+      <link>https://aakatev.github.io/blog/posts/hugo-cd-pipeline/</link>
+      <pubDate>Sun, 05 Jul 2020 10:42:08 -0700</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/posts/hugo-cd-pipeline/</guid>
+      <description>One day I decided to create a backup of all my dev.to posts. Programmers are lazy, so I wanted to do as little work as possible, and wanted the final result to look as nice as possible (or at least nicer than Markdown reader on GitHub).
+Final requirements for the project were the following:
+ Fully static (cheap/free to host) Markdown support (copy and paste existing material) Continuous deployment (automation is good) Easy to maintain (easy is good)  Based on the requirements, I decided on this simple workflow:</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,4 @@
+baseURL = "/"
+languageCode = "en-us"
+title = "Artem's Digital Garden"
+publishDir = "docs"
