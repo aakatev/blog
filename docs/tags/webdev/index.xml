@@ -6,10 +6,29 @@
     <description>Recent content in webdev on Artem&#39;s Digital Garden</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 18 Jul 2020 10:42:08 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 05 Sep 2020 10:42:08 -0700</lastBuildDate>
     
 	<atom:link href="https://aakatev.github.io/blog/tags/webdev/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Add a Video to Your Hugo Website</title>
+      <link>https://aakatev.github.io/blog/posts/add-a-video-to-your-hugo-website/</link>
+      <pubDate>Sat, 05 Sep 2020 10:42:08 -0700</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/posts/add-a-video-to-your-hugo-website/</guid>
+      <description>Hugo is the world’s fastest framework for building websites. It is easy to get started, and has a fair number of customization available out of the box. It is a great choice for content creators who don&amp;rsquo;t want to spend a lot of time on HTML and CSS, but would rather focus on delivering their product to the audience.
+Video is one of the most common forms of the media content.</description>
+    </item>
+    
+    <item>
+      <title>HTTPS on Localhost for Any Web Application</title>
+      <link>https://aakatev.github.io/blog/posts/https-on-localhost-for-any-web-application/</link>
+      <pubDate>Tue, 28 Jul 2020 10:42:08 -0700</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/posts/https-on-localhost-for-any-web-application/</guid>
+      <description>Having a TLS certificate is not a common requirement for local development. Moreover, many tools, like Angular or Parcel allow you to seamlessly generate certs with a runtime options. That said, sometimes you might need to serve HTTPS traffic to an application that doesn&amp;rsquo;t support TLS certificates auto-generation. In this cases, there is no elegant workaround, rather than actually generate the certificates manually. It can be done using tools, like openssl, and there is a number of great how-to articles on the topic, for example this one.</description>
+    </item>
     
     <item>
       <title>Static Website Infrastructure with Terraform</title>

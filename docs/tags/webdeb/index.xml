@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>webdeb on Artem&#39;s Digital Garden</title>
+    <link>https://aakatev.github.io/blog/tags/webdeb/</link>
+    <description>Recent content in webdeb on Artem&#39;s Digital Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 05 Sep 2020 10:42:08 -1500</lastBuildDate>
+    
+	<atom:link href="https://aakatev.github.io/blog/tags/webdeb/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>[Learn Hugo] Project Structure</title>
+      <link>https://aakatev.github.io/blog/posts/learn-hugo/project-structure/</link>
+      <pubDate>Sat, 05 Sep 2020 10:42:08 -1500</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/posts/learn-hugo/project-structure/</guid>
+      <description>Last time we talked about the difference between static and dynamic websites, and created a Hello World project using the Hugo CLI. This post will cover the project&amp;rsquo;s folder structure in more details.
+Here is our hello-world project:
+├── archetypes │ └── default.md ├── config.toml ├── content ├── data ├── layouts │ └── index.html ├── resources │ └── _gen │ ├── assets │ └── images ├── static └── themes First of all, you have probably noticed that running the hugo server command created resources folder.</description>
+    </item>
+    
+    <item>
+      <title>[Learn Hugo] Getting Started with Static Websites</title>
+      <link>https://aakatev.github.io/blog/posts/learn-hugo/getting-started/</link>
+      <pubDate>Sat, 05 Sep 2020 10:42:08 -0900</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/posts/learn-hugo/getting-started/</guid>
+      <description>I have published a number of posts featuring Hugo. They got the least number of views and responses I have ever had on dev.to. Considering this fact, I don&amp;rsquo;t know why I decided it would be a good idea to have the whole series of articles dedicated to &amp;ldquo;the world’s fastest framework for building websites&amp;rdquo;.
+The format for the series is going to be beginner friendly. Each post covers a single feature, or some subset of a feature.</description>
+    </item>
+    
+  </channel>
+</rss>

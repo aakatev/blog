@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    
+    
+    
+    <link rel="stylesheet" href="https://aakatev.github.io/blog/styles/main.min.1dbe4c97c186788afdccea4b5ca80d0a9e9c0a5adc25e1cc30f23babf42e1796.css">
+
+    <title>
+  HTTPS on Localhost for Any Web Application &ndash; Artem&#39;s Digital Garden
+</title>
+  </head>
+  <body class="mb-4">
+    <nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="https://aakatev.github.io/blog/">Artem's Digital Garden</a>
+  </div>
+</nav>
+    
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-lg-6">
+        <div class="mt-5 blog-post">
+          <h1 class="pb-4 mb-4 border-bottom">HTTPS on Localhost for Any Web Application</h1>
+          <p><p>Having a TLS certificate is not a common requirement for local development. Moreover, many tools, like Angular or Parcel allow you to seamlessly generate certs with a runtime options. That said, sometimes you might need to serve HTTPS traffic to an application that doesn&rsquo;t support TLS certificates auto-generation. In this cases, there is no elegant workaround, rather than actually generate the certificates manually. It can be done using tools, like openssl, and there is a number of great how-to articles on the topic, for example <a href="https://www.freecodecamp.org/news/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec/">this one</a>.</p>
+<h2 id="one-command-tls-with-caddy">One-Command TLS with Caddy</h2>
+<p><a href="https://caddyserver.com/">Caddy</a> is a web server written in go that among other features automates TLS certificates generation. All you need for Caddy to proxy traffic to your app is one simple command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># considering the app is running on port 3000</span>
+caddy reverse-proxy --to http://localhost:3000
+</code></pre></div><p>For more complex usecases, Caddy also has a notion of <a href="https://caddyserver.com/docs/caddyfile"><code>Caddyfile</code></a>, which is the same as configuration file.</p>
+<h2 id="installation">Installation</h2>
+<p>For the install process, refer to the <a href="https://caddyserver.com/docs/download">Download</a> section of the Caddy docs.</p>
+<p>Depending on preferred method of your installation, you might need to make your system trust the TLS certificates Caddy generates.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># adds certs into the local trust store</span>
+caddy trust
+</code></pre></div><h2 id="google-chrome-issue-fix">Google Chrome Issue Fix</h2>
+<p>Up until Caddy&rsquo;s recent release, there is a <a href="https://github.com/caddyserver/caddy/issues/3571">know issue</a> affecting Google Chrome browsers (or other Chrome-based).</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/i/jy995xfcwgsp460r9ec7.png" alt="Alt Text"></p>
+<p>In case you see the warning from above, please check that you have the latest version of Caddy installed!</p>
+</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+  </body>
+</html>

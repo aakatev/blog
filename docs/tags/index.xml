@@ -6,10 +6,73 @@
     <description>Recent content in Tags on Artem&#39;s Digital Garden</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 18 Jul 2020 10:42:08 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 05 Sep 2020 10:42:08 -1500</lastBuildDate>
     
 	<atom:link href="https://aakatev.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>hugo</title>
+      <link>https://aakatev.github.io/blog/tags/hugo/</link>
+      <pubDate>Sat, 05 Sep 2020 10:42:08 -1500</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>jamstack</title>
+      <link>https://aakatev.github.io/blog/tags/jamstack/</link>
+      <pubDate>Sat, 05 Sep 2020 10:42:08 -1500</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/tags/jamstack/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>learn-hugo</title>
+      <link>https://aakatev.github.io/blog/tags/learn-hugo/</link>
+      <pubDate>Sat, 05 Sep 2020 10:42:08 -1500</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/tags/learn-hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tutorial</title>
+      <link>https://aakatev.github.io/blog/tags/tutorial/</link>
+      <pubDate>Sat, 05 Sep 2020 10:42:08 -1500</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/tags/tutorial/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>webdeb</title>
+      <link>https://aakatev.github.io/blog/tags/webdeb/</link>
+      <pubDate>Sat, 05 Sep 2020 10:42:08 -1500</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/tags/webdeb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>webdev</title>
+      <link>https://aakatev.github.io/blog/tags/webdev/</link>
+      <pubDate>Sat, 05 Sep 2020 10:42:08 -0700</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/tags/webdev/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>beginners</title>
+      <link>https://aakatev.github.io/blog/tags/beginners/</link>
+      <pubDate>Tue, 28 Jul 2020 10:42:08 -0700</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/tags/beginners/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>aws</title>
@@ -44,15 +107,6 @@
       <pubDate>Sat, 18 Jul 2020 10:42:08 -0700</pubDate>
       
       <guid>https://aakatev.github.io/blog/tags/terrafrom/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>webdev</title>
-      <link>https://aakatev.github.io/blog/tags/webdev/</link>
-      <pubDate>Sat, 18 Jul 2020 10:42:08 -0700</pubDate>
-      
-      <guid>https://aakatev.github.io/blog/tags/webdev/</guid>
       <description></description>
     </item>
     
@@ -134,15 +188,6 @@
       <pubDate>Sun, 05 Jul 2020 10:42:08 -0700</pubDate>
       
       <guid>https://aakatev.github.io/blog/tags/circleci/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>hugo</title>
-      <link>https://aakatev.github.io/blog/tags/hugo/</link>
-      <pubDate>Sun, 05 Jul 2020 10:42:08 -0700</pubDate>
-      
-      <guid>https://aakatev.github.io/blog/tags/hugo/</guid>
       <description></description>
     </item>
     
