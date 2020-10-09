@@ -2,49 +2,45 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>introduction on Artem&#39;s Digital Garden</title>
-    <link>https://aakatev.github.io/blog/tags/introduction/</link>
+    <link>/tags/introduction/</link>
     <description>Recent content in introduction on Artem&#39;s Digital Garden</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Jul 2020 10:42:08 -0700</lastBuildDate>
-    
-	<atom:link href="https://aakatev.github.io/blog/tags/introduction/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 17 Jul 2020 10:42:08 -0700</lastBuildDate><atom:link href="/tags/introduction/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Web Security 101</title>
-      <link>https://aakatev.github.io/blog/posts/web-security-101/</link>
+      <link>/posts/web-security-101/</link>
       <pubDate>Fri, 17 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/web-security-101/</guid>
+      <guid>/posts/web-security-101/</guid>
       <description>The current document was born as part of my personal research on topic of security related to Software (SW), and specifically Web Applications. It is by no means comprehensive, but can be a good place to start getting familiar with the most common threats developers face on the World Wide Web (WWW). Each section aims to introduce a problem, or a technology. Briefly give to a reader an overview of the issue, and provide references for the further research.</description>
     </item>
     
     <item>
       <title>Introduction to Make</title>
-      <link>https://aakatev.github.io/blog/posts/make-introduction/</link>
+      <link>/posts/make-introduction/</link>
       <pubDate>Sun, 03 May 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/make-introduction/</guid>
+      <guid>/posts/make-introduction/</guid>
       <description>Make is a build automation tool which generates executable from source code. It is really powerful, and dramatically simplifies lives of developers who have to work with compiled languages. Make defines a language that describes relationships between source code, intermediate files, and generated executable. This rules are defined in a special file, called Makefile. Although Make can quickly get complicated, you don&amp;rsquo;t need to know everything to use it in your projects!</description>
     </item>
     
     <item>
       <title>Deploy EC2 Instance in Minutes with Terraform</title>
-      <link>https://aakatev.github.io/blog/posts/terraform-deploy-ec2/</link>
+      <link>/posts/terraform-deploy-ec2/</link>
       <pubDate>Sun, 19 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/terraform-deploy-ec2/</guid>
+      <guid>/posts/terraform-deploy-ec2/</guid>
       <description>Everyone using AWS knows that navigating the console could be a major pain. Luckily there is a number of tools aiming to simplify this burden. One of them is Terraform by HashiCorp. Today, I want to introduce the tool, and show how to deploy EC2 instance on aws in minutes.
 Overview Firstly, what is Terraform? In short, it is an IaC (Infrastructure as Code) tool easing a process of delivering software.</description>
     </item>
     
     <item>
       <title>Counter Using Functional Approach in Javascript</title>
-      <link>https://aakatev.github.io/blog/posts/javascript-functional-counter/</link>
+      <link>/posts/javascript-functional-counter/</link>
       <pubDate>Thu, 16 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/javascript-functional-counter/</guid>
+      <guid>/posts/javascript-functional-counter/</guid>
       <description>In my previous post, I showed my readers how to implement Singleton in JavaScript using closure, and IIFE.
 This time, I want to show you how to utilize the same building blocks, as well as one more functional programming technique, to implement a basic counter!
 Let&amp;rsquo;s start with a counter that takes a starting number as an argument, and uses closure to keep track of the current count:

@@ -2,372 +2,368 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Artem&#39;s Digital Garden</title>
-    <link>https://aakatev.github.io/blog/tags/</link>
+    <link>/tags/</link>
     <description>Recent content in Tags on Artem&#39;s Digital Garden</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 05 Sep 2020 10:42:08 -1500</lastBuildDate>
-    
-	<atom:link href="https://aakatev.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 05 Sep 2020 10:42:08 -1500</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>hugo</title>
-      <link>https://aakatev.github.io/blog/tags/hugo/</link>
+      <link>/tags/hugo/</link>
       <pubDate>Sat, 05 Sep 2020 10:42:08 -1500</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/hugo/</guid>
+      <guid>/tags/hugo/</guid>
       <description></description>
     </item>
     
     <item>
       <title>jamstack</title>
-      <link>https://aakatev.github.io/blog/tags/jamstack/</link>
+      <link>/tags/jamstack/</link>
       <pubDate>Sat, 05 Sep 2020 10:42:08 -1500</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/jamstack/</guid>
+      <guid>/tags/jamstack/</guid>
       <description></description>
     </item>
     
     <item>
       <title>learn-hugo</title>
-      <link>https://aakatev.github.io/blog/tags/learn-hugo/</link>
+      <link>/tags/learn-hugo/</link>
       <pubDate>Sat, 05 Sep 2020 10:42:08 -1500</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/learn-hugo/</guid>
+      <guid>/tags/learn-hugo/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tutorial</title>
-      <link>https://aakatev.github.io/blog/tags/tutorial/</link>
+      <link>/tags/tutorial/</link>
       <pubDate>Sat, 05 Sep 2020 10:42:08 -1500</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/tutorial/</guid>
+      <guid>/tags/tutorial/</guid>
       <description></description>
     </item>
     
     <item>
       <title>webdeb</title>
-      <link>https://aakatev.github.io/blog/tags/webdeb/</link>
+      <link>/tags/webdeb/</link>
       <pubDate>Sat, 05 Sep 2020 10:42:08 -1500</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/webdeb/</guid>
+      <guid>/tags/webdeb/</guid>
       <description></description>
     </item>
     
     <item>
       <title>webdev</title>
-      <link>https://aakatev.github.io/blog/tags/webdev/</link>
+      <link>/tags/webdev/</link>
       <pubDate>Sat, 05 Sep 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/webdev/</guid>
+      <guid>/tags/webdev/</guid>
       <description></description>
     </item>
     
     <item>
       <title>beginners</title>
-      <link>https://aakatev.github.io/blog/tags/beginners/</link>
+      <link>/tags/beginners/</link>
       <pubDate>Tue, 28 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/beginners/</guid>
+      <guid>/tags/beginners/</guid>
       <description></description>
     </item>
     
     <item>
       <title>aws</title>
-      <link>https://aakatev.github.io/blog/tags/aws/</link>
+      <link>/tags/aws/</link>
       <pubDate>Sat, 18 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/aws/</guid>
+      <guid>/tags/aws/</guid>
       <description></description>
     </item>
     
     <item>
       <title>devops</title>
-      <link>https://aakatev.github.io/blog/tags/devops/</link>
+      <link>/tags/devops/</link>
       <pubDate>Sat, 18 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/devops/</guid>
+      <guid>/tags/devops/</guid>
       <description></description>
     </item>
     
     <item>
       <title>iac</title>
-      <link>https://aakatev.github.io/blog/tags/iac/</link>
+      <link>/tags/iac/</link>
       <pubDate>Sat, 18 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/iac/</guid>
+      <guid>/tags/iac/</guid>
       <description></description>
     </item>
     
     <item>
       <title>terrafrom</title>
-      <link>https://aakatev.github.io/blog/tags/terrafrom/</link>
+      <link>/tags/terrafrom/</link>
       <pubDate>Sat, 18 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/terrafrom/</guid>
+      <guid>/tags/terrafrom/</guid>
       <description></description>
     </item>
     
     <item>
       <title>introduction</title>
-      <link>https://aakatev.github.io/blog/tags/introduction/</link>
+      <link>/tags/introduction/</link>
       <pubDate>Fri, 17 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/introduction/</guid>
+      <guid>/tags/introduction/</guid>
       <description></description>
     </item>
     
     <item>
       <title>security</title>
-      <link>https://aakatev.github.io/blog/tags/security/</link>
+      <link>/tags/security/</link>
       <pubDate>Fri, 17 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/security/</guid>
+      <guid>/tags/security/</guid>
       <description></description>
     </item>
     
     <item>
       <title>todayisearched</title>
-      <link>https://aakatev.github.io/blog/tags/todayisearched/</link>
+      <link>/tags/todayisearched/</link>
       <pubDate>Fri, 17 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/todayisearched/</guid>
+      <guid>/tags/todayisearched/</guid>
       <description></description>
     </item>
     
     <item>
       <title>books</title>
-      <link>https://aakatev.github.io/blog/tags/books/</link>
+      <link>/tags/books/</link>
       <pubDate>Thu, 09 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/books/</guid>
+      <guid>/tags/books/</guid>
       <description></description>
     </item>
     
     <item>
       <title>learn</title>
-      <link>https://aakatev.github.io/blog/tags/learn/</link>
+      <link>/tags/learn/</link>
       <pubDate>Thu, 09 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/learn/</guid>
+      <guid>/tags/learn/</guid>
       <description></description>
     </item>
     
     <item>
       <title>sre</title>
-      <link>https://aakatev.github.io/blog/tags/sre/</link>
+      <link>/tags/sre/</link>
       <pubDate>Thu, 09 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/sre/</guid>
+      <guid>/tags/sre/</guid>
       <description></description>
     </item>
     
     <item>
       <title>docker</title>
-      <link>https://aakatev.github.io/blog/tags/docker/</link>
+      <link>/tags/docker/</link>
       <pubDate>Tue, 07 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/docker/</guid>
+      <guid>/tags/docker/</guid>
       <description></description>
     </item>
     
     <item>
       <title>kubernetes</title>
-      <link>https://aakatev.github.io/blog/tags/kubernetes/</link>
+      <link>/tags/kubernetes/</link>
       <pubDate>Tue, 07 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/kubernetes/</guid>
+      <guid>/tags/kubernetes/</guid>
       <description></description>
     </item>
     
     <item>
       <title>circleci</title>
-      <link>https://aakatev.github.io/blog/tags/circleci/</link>
+      <link>/tags/circleci/</link>
       <pubDate>Sun, 05 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/circleci/</guid>
+      <guid>/tags/circleci/</guid>
       <description></description>
     </item>
     
     <item>
       <title>terraform</title>
-      <link>https://aakatev.github.io/blog/tags/terraform/</link>
+      <link>/tags/terraform/</link>
       <pubDate>Sun, 05 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/terraform/</guid>
+      <guid>/tags/terraform/</guid>
       <description></description>
     </item>
     
     <item>
       <title>database</title>
-      <link>https://aakatev.github.io/blog/tags/database/</link>
+      <link>/tags/database/</link>
       <pubDate>Thu, 02 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/database/</guid>
+      <guid>/tags/database/</guid>
       <description></description>
     </item>
     
     <item>
       <title>guide</title>
-      <link>https://aakatev.github.io/blog/tags/guide/</link>
+      <link>/tags/guide/</link>
       <pubDate>Thu, 02 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/guide/</guid>
+      <guid>/tags/guide/</guid>
       <description></description>
     </item>
     
     <item>
       <title>linux</title>
-      <link>https://aakatev.github.io/blog/tags/linux/</link>
+      <link>/tags/linux/</link>
       <pubDate>Thu, 02 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/linux/</guid>
+      <guid>/tags/linux/</guid>
       <description></description>
     </item>
     
     <item>
       <title>redis</title>
-      <link>https://aakatev.github.io/blog/tags/redis/</link>
+      <link>/tags/redis/</link>
       <pubDate>Thu, 02 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/redis/</guid>
+      <guid>/tags/redis/</guid>
       <description></description>
     </item>
     
     <item>
       <title>closure</title>
-      <link>https://aakatev.github.io/blog/tags/closure/</link>
+      <link>/tags/closure/</link>
       <pubDate>Sat, 06 Jun 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/closure/</guid>
+      <guid>/tags/closure/</guid>
       <description></description>
     </item>
     
     <item>
       <title>functional</title>
-      <link>https://aakatev.github.io/blog/tags/functional/</link>
+      <link>/tags/functional/</link>
       <pubDate>Sat, 06 Jun 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/functional/</guid>
+      <guid>/tags/functional/</guid>
       <description></description>
     </item>
     
     <item>
       <title>javascript</title>
-      <link>https://aakatev.github.io/blog/tags/javascript/</link>
+      <link>/tags/javascript/</link>
       <pubDate>Sat, 06 Jun 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/javascript/</guid>
+      <guid>/tags/javascript/</guid>
       <description></description>
     </item>
     
     <item>
       <title>design</title>
-      <link>https://aakatev.github.io/blog/tags/design/</link>
+      <link>/tags/design/</link>
       <pubDate>Thu, 21 May 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/design/</guid>
+      <guid>/tags/design/</guid>
       <description></description>
     </item>
     
     <item>
       <title>research</title>
-      <link>https://aakatev.github.io/blog/tags/research/</link>
+      <link>/tags/research/</link>
       <pubDate>Thu, 21 May 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/research/</guid>
+      <guid>/tags/research/</guid>
       <description></description>
     </item>
     
     <item>
       <title>state</title>
-      <link>https://aakatev.github.io/blog/tags/state/</link>
+      <link>/tags/state/</link>
       <pubDate>Thu, 21 May 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/state/</guid>
+      <guid>/tags/state/</guid>
       <description></description>
     </item>
     
     <item>
       <title>build</title>
-      <link>https://aakatev.github.io/blog/tags/build/</link>
+      <link>/tags/build/</link>
       <pubDate>Sun, 03 May 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/build/</guid>
+      <guid>/tags/build/</guid>
       <description></description>
     </item>
     
     <item>
       <title>c</title>
-      <link>https://aakatev.github.io/blog/tags/c/</link>
+      <link>/tags/c/</link>
       <pubDate>Sun, 03 May 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/c/</guid>
+      <guid>/tags/c/</guid>
       <description></description>
     </item>
     
     <item>
       <title>make</title>
-      <link>https://aakatev.github.io/blog/tags/make/</link>
+      <link>/tags/make/</link>
       <pubDate>Sun, 03 May 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/make/</guid>
+      <guid>/tags/make/</guid>
       <description></description>
     </item>
     
     <item>
       <title>boilerplate</title>
-      <link>https://aakatev.github.io/blog/tags/boilerplate/</link>
+      <link>/tags/boilerplate/</link>
       <pubDate>Tue, 21 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/boilerplate/</guid>
+      <guid>/tags/boilerplate/</guid>
       <description></description>
     </item>
     
     <item>
       <title>node</title>
-      <link>https://aakatev.github.io/blog/tags/node/</link>
+      <link>/tags/node/</link>
       <pubDate>Tue, 21 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/node/</guid>
+      <guid>/tags/node/</guid>
       <description></description>
     </item>
     
     <item>
       <title>webpack</title>
-      <link>https://aakatev.github.io/blog/tags/webpack/</link>
+      <link>/tags/webpack/</link>
       <pubDate>Tue, 21 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/webpack/</guid>
+      <guid>/tags/webpack/</guid>
       <description></description>
     </item>
     
     <item>
       <title>patterns</title>
-      <link>https://aakatev.github.io/blog/tags/patterns/</link>
+      <link>/tags/patterns/</link>
       <pubDate>Sun, 12 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/patterns/</guid>
+      <guid>/tags/patterns/</guid>
       <description></description>
     </item>
     
     <item>
       <title>blockchain</title>
-      <link>https://aakatev.github.io/blog/tags/blockchain/</link>
+      <link>/tags/blockchain/</link>
       <pubDate>Fri, 10 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/blockchain/</guid>
+      <guid>/tags/blockchain/</guid>
       <description></description>
     </item>
     
     <item>
       <title>cosmos-sdk</title>
-      <link>https://aakatev.github.io/blog/tags/cosmos-sdk/</link>
+      <link>/tags/cosmos-sdk/</link>
       <pubDate>Fri, 10 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/tags/cosmos-sdk/</guid>
+      <guid>/tags/cosmos-sdk/</guid>
       <description></description>
     </item>
     

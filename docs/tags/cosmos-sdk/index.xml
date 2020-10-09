@@ -2,21 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>cosmos-sdk on Artem&#39;s Digital Garden</title>
-    <link>https://aakatev.github.io/blog/tags/cosmos-sdk/</link>
+    <link>/tags/cosmos-sdk/</link>
     <description>Recent content in cosmos-sdk on Artem&#39;s Digital Garden</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 10 Apr 2020 08:42:08 -0700</lastBuildDate>
-    
-	<atom:link href="https://aakatev.github.io/blog/tags/cosmos-sdk/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 10 Apr 2020 08:42:08 -0700</lastBuildDate><atom:link href="/tags/cosmos-sdk/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Getting Data from Cosmos Hub using Node JS</title>
-      <link>https://aakatev.github.io/blog/posts/cosmos-hub-extract-data/</link>
+      <link>/posts/cosmos-hub-extract-data/</link>
       <pubDate>Fri, 10 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/cosmos-hub-extract-data/</guid>
+      <guid>/posts/cosmos-hub-extract-data/</guid>
       <description>In my opinion Cosmos SDK is a really interesting project. My favorite part of their development is IBC. I like the idea of having a protocol for different Blockchains to exchange data in secure and consistent manner. I also like how Tendermint and Cosmos developers find inspiration in the way Internet was implemented. It is one of the topics that excites me either. It is so fascinating how we created all these layers of abstraction and encapsulation, in order to transport data from one physical point to another.</description>
     </item>
     

@@ -2,21 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Artem&#39;s Digital Garden</title>
-    <link>https://aakatev.github.io/blog/posts/</link>
+    <link>/posts/</link>
     <description>Recent content in Posts on Artem&#39;s Digital Garden</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 05 Sep 2020 10:42:08 -1500</lastBuildDate>
-    
-	<atom:link href="https://aakatev.github.io/blog/posts/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 05 Sep 2020 10:42:08 -1500</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[Learn Hugo] Project Structure</title>
-      <link>https://aakatev.github.io/blog/posts/learn-hugo/project-structure/</link>
+      <link>/posts/learn-hugo/project-structure/</link>
       <pubDate>Sat, 05 Sep 2020 10:42:08 -1500</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/learn-hugo/project-structure/</guid>
+      <guid>/posts/learn-hugo/project-structure/</guid>
       <description>Last time we talked about the difference between static and dynamic websites, and created a Hello World project using the Hugo CLI. This post will cover the project&amp;rsquo;s folder structure in more details.
 Here is our hello-world project:
 ├── archetypes │ └── default.md ├── config.toml ├── content ├── data ├── layouts │ └── index.html ├── resources │ └── _gen │ ├── assets │ └── images ├── static └── themes First of all, you have probably noticed that running the hugo server command created resources folder.</description>
@@ -24,67 +20,67 @@ Here is our hello-world project:
     
     <item>
       <title>[Learn Hugo] Getting Started with Static Websites</title>
-      <link>https://aakatev.github.io/blog/posts/learn-hugo/getting-started/</link>
+      <link>/posts/learn-hugo/getting-started/</link>
       <pubDate>Sat, 05 Sep 2020 10:42:08 -0900</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/learn-hugo/getting-started/</guid>
+      <guid>/posts/learn-hugo/getting-started/</guid>
       <description>I have published a number of posts featuring Hugo. They got the least number of views and responses I have ever had on dev.to. Considering this fact, I don&amp;rsquo;t know why I decided it would be a good idea to have the whole series of articles dedicated to &amp;ldquo;the world’s fastest framework for building websites&amp;rdquo;.
 The format for the series is going to be beginner friendly. Each post covers a single feature, or some subset of a feature.</description>
     </item>
     
     <item>
       <title>Add a Video to Your Hugo Website</title>
-      <link>https://aakatev.github.io/blog/posts/add-a-video-to-your-hugo-website/</link>
+      <link>/posts/add-a-video-to-your-hugo-website/</link>
       <pubDate>Sat, 05 Sep 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/add-a-video-to-your-hugo-website/</guid>
+      <guid>/posts/add-a-video-to-your-hugo-website/</guid>
       <description>Hugo is the world’s fastest framework for building websites. It is easy to get started, and has a fair number of customization available out of the box. It is a great choice for content creators who don&amp;rsquo;t want to spend a lot of time on HTML and CSS, but would rather focus on delivering their product to the audience.
 Video is one of the most common forms of the media content.</description>
     </item>
     
     <item>
       <title>HTTPS on Localhost for Any Web Application</title>
-      <link>https://aakatev.github.io/blog/posts/https-on-localhost-for-any-web-application/</link>
+      <link>/posts/https-on-localhost-for-any-web-application/</link>
       <pubDate>Tue, 28 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/https-on-localhost-for-any-web-application/</guid>
+      <guid>/posts/https-on-localhost-for-any-web-application/</guid>
       <description>Having a TLS certificate is not a common requirement for local development. Moreover, many tools, like Angular or Parcel allow you to seamlessly generate certs with a runtime options. That said, sometimes you might need to serve HTTPS traffic to an application that doesn&amp;rsquo;t support TLS certificates auto-generation. In this cases, there is no elegant workaround, rather than actually generate the certificates manually. It can be done using tools, like openssl, and there is a number of great how-to articles on the topic, for example this one.</description>
     </item>
     
     <item>
       <title>Static Website Infrastructure with Terraform</title>
-      <link>https://aakatev.github.io/blog/posts/terraform-static-website/</link>
+      <link>/posts/terraform-static-website/</link>
       <pubDate>Sat, 18 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/terraform-static-website/</guid>
+      <guid>/posts/terraform-static-website/</guid>
       <description>Deploying a static website is one of the easiest task a web developer faces. There is a number of solutions allowing to complete the deployment process in a matter of few minutes, and several buttons clicks. What a wonderful world we live in! However, this approach has one huge limitation. You don&amp;rsquo;t really own the underlying infrastructure. I claim that there is a way you can both do the deployment fast, and own the underlying infrastructure.</description>
     </item>
     
     <item>
       <title>Web Security 101</title>
-      <link>https://aakatev.github.io/blog/posts/web-security-101/</link>
+      <link>/posts/web-security-101/</link>
       <pubDate>Fri, 17 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/web-security-101/</guid>
+      <guid>/posts/web-security-101/</guid>
       <description>The current document was born as part of my personal research on topic of security related to Software (SW), and specifically Web Applications. It is by no means comprehensive, but can be a good place to start getting familiar with the most common threats developers face on the World Wide Web (WWW). Each section aims to introduce a problem, or a technology. Briefly give to a reader an overview of the issue, and provide references for the further research.</description>
     </item>
     
     <item>
       <title>5 DevOps Books to Read for FREE</title>
-      <link>https://aakatev.github.io/blog/posts/5-devops-books-free/</link>
+      <link>/posts/5-devops-books-free/</link>
       <pubDate>Thu, 09 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/5-devops-books-free/</guid>
+      <guid>/posts/5-devops-books-free/</guid>
       <description>Since its very beginning, DevOps movement has been a pretty vast topic, with many followers worldwide. Considering constant iterations and creation of new software, it becomes clear that to succeed in the world of DevOps, you have to do your homework. It means staying up to date with the latest industry trends.
 Whether you are new to the movement, or you are a DevOps veteran, here is a great reading list that will help you to develop your skills.</description>
     </item>
     
     <item>
       <title>4 YouTube Resources to Get Started with Kubernetes</title>
-      <link>https://aakatev.github.io/blog/posts/4-kubernetes-youtube-resources/</link>
+      <link>/posts/4-kubernetes-youtube-resources/</link>
       <pubDate>Tue, 07 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/4-kubernetes-youtube-resources/</guid>
+      <guid>/posts/4-kubernetes-youtube-resources/</guid>
       <description>Kubernetes (K8s) is an open-source system for automating deployment, scaling, and management of containerized applications. It groups containers that make up an application into logical units for easy management and discovery.
 Kubernetes official website
  Reading the definition from Kubernetes official website it becomes clear why people often feel frustrated starting to learn this technology. Today, I prepared a list of YouTube videos that will help you to learn Kubernetes and its architecture incrementally!</description>
@@ -92,10 +88,10 @@ Kubernetes official website
     
     <item>
       <title>Implementing CD Pipeline for Static Website</title>
-      <link>https://aakatev.github.io/blog/posts/hugo-cd-pipeline/</link>
+      <link>/posts/hugo-cd-pipeline/</link>
       <pubDate>Sun, 05 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/hugo-cd-pipeline/</guid>
+      <guid>/posts/hugo-cd-pipeline/</guid>
       <description>One day I decided to create a backup of all my dev.to posts. Programmers are lazy, so I wanted to do as little work as possible, and wanted the final result to look as nice as possible (or at least nicer than Markdown reader on GitHub).
 Final requirements for the project were the following:
  Fully static (cheap/free to host) Markdown support (copy and paste existing material) Continuous deployment (automation is good) Easy to maintain (easy is good)  Based on the requirements, I decided on this simple workflow:</description>
@@ -103,20 +99,20 @@ Final requirements for the project were the following:
     
     <item>
       <title>Install Redis on Linux Machine</title>
-      <link>https://aakatev.github.io/blog/posts/redis-linux-installation/</link>
+      <link>/posts/redis-linux-installation/</link>
       <pubDate>Thu, 02 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/redis-linux-installation/</guid>
+      <guid>/posts/redis-linux-installation/</guid>
       <description>This article was originally published in my Medium blog with the title &amp;ldquo;Redis the Proper Way&amp;rdquo;. When I decided to re-publish it on dev.to, I found the title to be misleading. There are a lot you should do with redis to make it the &amp;ldquo;proper way&amp;rdquo; that I have touched upon. Thus, now the article is titled more appropriately.
  When I first started familiarizing myself with redis, I thought about it as a big key value store.</description>
     </item>
     
     <item>
       <title>Intro to Functional JavaScript</title>
-      <link>https://aakatev.github.io/blog/posts/javascript-functional-intro/</link>
+      <link>/posts/javascript-functional-intro/</link>
       <pubDate>Sat, 06 Jun 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/javascript-functional-intro/</guid>
+      <guid>/posts/javascript-functional-intro/</guid>
       <description>This article is based on my old cheatsheet. It only includes methods provided by Vanilla JS. If you are looking for more advanced patterns, I recommend to look into Ramda.
  Do you know that out of the box JavaScript has some amazing parts, making it suitable for Functional Programming?
 Folding, Reduction, and Filtering Let&amp;rsquo;s say we have ten bank accounts.
@@ -125,28 +121,28 @@ let accounts = [ { id: 0, balance: 122.</description>
     
     <item>
       <title>The Problem of Centralized State in Web Applications</title>
-      <link>https://aakatev.github.io/blog/posts/state-in-web-applications/</link>
+      <link>/posts/state-in-web-applications/</link>
       <pubDate>Thu, 21 May 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/state-in-web-applications/</guid>
+      <guid>/posts/state-in-web-applications/</guid>
       <description>Intro For one of my senior classes this year, I worked on a project where we were building an online game. As you can imagine, the main issue becomes a question of keeping players in sync with the most recent game state. There are tons of solutions allowing to organize your state in browser, such as Redux, Mobx, or Ngrx. However, the tricky part is to synchronize state between multiple clients, and centralized storage, such as database.</description>
     </item>
     
     <item>
       <title>Introduction to Make</title>
-      <link>https://aakatev.github.io/blog/posts/make-introduction/</link>
+      <link>/posts/make-introduction/</link>
       <pubDate>Sun, 03 May 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/make-introduction/</guid>
+      <guid>/posts/make-introduction/</guid>
       <description>Make is a build automation tool which generates executable from source code. It is really powerful, and dramatically simplifies lives of developers who have to work with compiled languages. Make defines a language that describes relationships between source code, intermediate files, and generated executable. This rules are defined in a special file, called Makefile. Although Make can quickly get complicated, you don&amp;rsquo;t need to know everything to use it in your projects!</description>
     </item>
     
     <item>
       <title>Three.JS-Webpack Boilerplate</title>
-      <link>https://aakatev.github.io/blog/posts/three-js-webpack-boilerplate/</link>
+      <link>/posts/three-js-webpack-boilerplate/</link>
       <pubDate>Tue, 21 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/three-js-webpack-boilerplate/</guid>
+      <guid>/posts/three-js-webpack-boilerplate/</guid>
       <description>Overview Three.JS is an awesome library. It is based on WebGL, and has a straightforward, and well-documented API. However, I found that project&amp;rsquo;s initial setup may require some boilerplate.
 I created some minimal configuration to bootstrap a project, and want to share with everyone. It includes webpack, webpack-dev-server, and prettier. I also included one of three.js demo projects, to test deployment on GitHub pages.
 The boilerplate is available on GitHub, and you can play with the demo here.</description>
@@ -154,20 +150,20 @@ The boilerplate is available on GitHub, and you can play with the demo here.</de
     
     <item>
       <title>Deploy EC2 Instance in Minutes with Terraform</title>
-      <link>https://aakatev.github.io/blog/posts/terraform-deploy-ec2/</link>
+      <link>/posts/terraform-deploy-ec2/</link>
       <pubDate>Sun, 19 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/terraform-deploy-ec2/</guid>
+      <guid>/posts/terraform-deploy-ec2/</guid>
       <description>Everyone using AWS knows that navigating the console could be a major pain. Luckily there is a number of tools aiming to simplify this burden. One of them is Terraform by HashiCorp. Today, I want to introduce the tool, and show how to deploy EC2 instance on aws in minutes.
 Overview Firstly, what is Terraform? In short, it is an IaC (Infrastructure as Code) tool easing a process of delivering software.</description>
     </item>
     
     <item>
       <title>Counter Using Functional Approach in Javascript</title>
-      <link>https://aakatev.github.io/blog/posts/javascript-functional-counter/</link>
+      <link>/posts/javascript-functional-counter/</link>
       <pubDate>Thu, 16 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/javascript-functional-counter/</guid>
+      <guid>/posts/javascript-functional-counter/</guid>
       <description>In my previous post, I showed my readers how to implement Singleton in JavaScript using closure, and IIFE.
 This time, I want to show you how to utilize the same building blocks, as well as one more functional programming technique, to implement a basic counter!
 Let&amp;rsquo;s start with a counter that takes a starting number as an argument, and uses closure to keep track of the current count:
@@ -176,29 +172,29 @@ function from(start) { let i = start - 1 function inc() { i = i + 1 return i } r
     
     <item>
       <title>Singleton Pattern in JavaScript</title>
-      <link>https://aakatev.github.io/blog/posts/javascript-singleton/</link>
+      <link>/posts/javascript-singleton/</link>
       <pubDate>Sun, 12 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/javascript-singleton/</guid>
+      <guid>/posts/javascript-singleton/</guid>
       <description>If you come from Java or C++ background, you are probably used to classic OOP model, and it is hard to imagine how you can implement singleton in JavaScript. The answer to this question is to use closures!
 It is the same idea as module patterns, and comes from functional programming. The essence of closure, is creating an inner function in a scope of an outer function. If you know JS, you know that inner function has access to data members that are in the scope of the outer function.</description>
     </item>
     
     <item>
       <title>Getting Data from Cosmos Hub using Node JS</title>
-      <link>https://aakatev.github.io/blog/posts/cosmos-hub-extract-data/</link>
+      <link>/posts/cosmos-hub-extract-data/</link>
       <pubDate>Fri, 10 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/cosmos-hub-extract-data/</guid>
+      <guid>/posts/cosmos-hub-extract-data/</guid>
       <description>In my opinion Cosmos SDK is a really interesting project. My favorite part of their development is IBC. I like the idea of having a protocol for different Blockchains to exchange data in secure and consistent manner. I also like how Tendermint and Cosmos developers find inspiration in the way Internet was implemented. It is one of the topics that excites me either. It is so fascinating how we created all these layers of abstraction and encapsulation, in order to transport data from one physical point to another.</description>
     </item>
     
     <item>
       <title>Multipage Application with Node and Webpack</title>
-      <link>https://aakatev.github.io/blog/posts/node-webpack-application/</link>
+      <link>/posts/node-webpack-application/</link>
       <pubDate>Sat, 04 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/node-webpack-application/</guid>
+      <guid>/posts/node-webpack-application/</guid>
       <description>A quick tutorial on how to configure Webpack with multiple outputs. Building Web Applications with Node is easy! There is a great number of frameworks, and tools that help programmer to bootstrap an environment and start working in just a matter of seconds. Some of them generate a bunch of boilerplate, like Create React App, while others help to eliminate it, like Gatsby. In one case, you might have a setup that you might not necessary want, in another, you are bound to certain conventions.</description>
     </item>
     

@@ -4,13 +4,14 @@
     
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    
+    <link rel="shortcut icon" href="favicon.ico">
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
     
     
     
-    <link rel="stylesheet" href="https://aakatev.github.io/blog/styles/main.min.1dbe4c97c186788afdccea4b5ca80d0a9e9c0a5adc25e1cc30f23babf42e1796.css">
+    <link rel="stylesheet" href="/styles/main.min.1dbe4c97c186788afdccea4b5ca80d0a9e9c0a5adc25e1cc30f23babf42e1796.css">
 
     <title>
   Implementing CD Pipeline for Static Website &ndash; Artem&#39;s Digital Garden
@@ -19,7 +20,7 @@
   <body class="mb-4">
     <nav class="navbar navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="https://aakatev.github.io/blog/">Artem's Digital Garden</a>
+    <a class="navbar-brand" href="/">Artem's Digital Garden</a>
   </div>
 </nav>
     
@@ -136,39 +137,39 @@ circle_ci_access_key_secret <span style="color:#f92672">=</span> SOME_AWS_KEY_SE
 <h2 id="step-3-store-the-source-code">Step 3: Store the Source Code</h2>
 <p>I will be using BitBucket as my version control, but GitHub will do the trick too. AFAIK there are no differences in CircleCI integration with both.</p>
 <p>Create a file <code>.circleci/config.yml</code> with the following content:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#66d9ef">version</span>: <span style="color:#ae81ff">2</span>
-<span style="color:#66d9ef">jobs</span>:
-  <span style="color:#66d9ef">build</span>:
-    <span style="color:#66d9ef">docker</span>:
-      - <span style="color:#66d9ef">image</span>: cibuilds/hugo:<span style="color:#ae81ff">0.73</span>
-    <span style="color:#66d9ef">working_directory</span>: /home/circleci/hugo
-    <span style="color:#66d9ef">environment</span>:
-      <span style="color:#66d9ef">HUGO_DIR</span>: /home/circleci/hugo
-      <span style="color:#66d9ef">S3_BUCKET</span>: aakatev-blog
-    <span style="color:#66d9ef">steps</span>:
-      - checkout
-      - <span style="color:#66d9ef">run</span>: git submodule sync <span style="color:#75715e">&amp;&amp;</span> git submodule update --init
-      - <span style="color:#66d9ef">run</span>:
-          <span style="color:#66d9ef">name</span>: install AWS CLI (first install pip, the Python package manager)
-          <span style="color:#66d9ef">command</span>: <span style="color:#e6db74">|
-</span><span style="color:#e6db74">            sudo apt install python-pip</span>
-            pip install awscli
-      - <span style="color:#66d9ef">run</span>: HUGO_ENV=production hugo -v -s $HUGO_DIR
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#f92672">version</span>: <span style="color:#ae81ff">2</span>
+<span style="color:#f92672">jobs</span>:
+  <span style="color:#f92672">build</span>:
+    <span style="color:#f92672">docker</span>:
+      - <span style="color:#f92672">image</span>: <span style="color:#ae81ff">cibuilds/hugo:0.73</span>
+    <span style="color:#f92672">working_directory</span>: <span style="color:#ae81ff">/home/circleci/hugo</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">HUGO_DIR</span>: <span style="color:#ae81ff">/home/circleci/hugo</span>
+      <span style="color:#f92672">S3_BUCKET</span>: <span style="color:#ae81ff">aakatev-blog</span>
+    <span style="color:#f92672">steps</span>:
+      - <span style="color:#ae81ff">checkout</span>
+      - <span style="color:#f92672">run</span>: <span style="color:#ae81ff">git submodule sync &amp;&amp; git submodule update --init</span>
+      - <span style="color:#f92672">run</span>:
+          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">install AWS CLI (first install pip, the Python package manager)</span>
+          <span style="color:#f92672">command</span>: |<span style="color:#e6db74">
+</span><span style="color:#e6db74">            sudo apt install python-pip
+</span><span style="color:#e6db74">            pip install awscli</span>            
+      - <span style="color:#f92672">run</span>: <span style="color:#ae81ff">HUGO_ENV=production hugo -v -s $HUGO_DIR</span>
 
-      - <span style="color:#66d9ef">run</span>:
-          <span style="color:#66d9ef">name</span>: test our generated HTML files
-          <span style="color:#66d9ef">command</span>: <span style="color:#e6db74">|
-</span><span style="color:#e6db74">            htmlproofer $HUGO_DIR/public --allow-hash-href --check-html \</span>
-            --empty-alt-ignore --disable-external
-      - <span style="color:#66d9ef">deploy</span>:
-          <span style="color:#66d9ef">name</span>: deploy to AWS
-          <span style="color:#66d9ef">command</span>: <span style="color:#e6db74">|
-</span><span style="color:#e6db74">            if [ &#34;${CIRCLE_BRANCH}&#34; = &#34;master&#34; ]; then</span>
-              aws s3 sync $HUGO_DIR/public \
-              s3://$S3_BUCKET/ --delete
-            else
-              echo <span style="color:#e6db74">&#34;Not master branch, dry run only&#34;</span>
-            fi
+      - <span style="color:#f92672">run</span>:
+          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">test our generated HTML files</span>
+          <span style="color:#f92672">command</span>: |<span style="color:#e6db74">
+</span><span style="color:#e6db74">            htmlproofer $HUGO_DIR/public --allow-hash-href --check-html \
+</span><span style="color:#e6db74">            --empty-alt-ignore --disable-external</span>            
+      - <span style="color:#f92672">deploy</span>:
+          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">deploy to AWS</span>
+          <span style="color:#f92672">command</span>: |<span style="color:#e6db74">
+</span><span style="color:#e6db74">            if [ &#34;${CIRCLE_BRANCH}&#34; = &#34;master&#34; ]; then
+</span><span style="color:#e6db74">              aws s3 sync $HUGO_DIR/public \
+</span><span style="color:#e6db74">              s3://$S3_BUCKET/ --delete
+</span><span style="color:#e6db74">            else
+</span><span style="color:#e6db74">              echo &#34;Not master branch, dry run only&#34;
+</span><span style="color:#e6db74">            fi</span>            
 </code></pre></div><h2 id="step-4-configure-the-circleci-pipeline">Step 4: Configure the CircleCI pipeline</h2>
 <p>Besides <code>config.yml</code> CircleCI needs access keys, in order to have administrator access to the S3 bucket. Visit your <strong>Project Settings</strong> section:</p>
 <p><img src="https://dev-to-uploads.s3.amazonaws.com/i/iev9cf64ykko3b97c61q.png" alt="CircleCI configuration"></p>

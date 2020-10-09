@@ -2,21 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>functional on Artem&#39;s Digital Garden</title>
-    <link>https://aakatev.github.io/blog/tags/functional/</link>
+    <link>/tags/functional/</link>
     <description>Recent content in functional on Artem&#39;s Digital Garden</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 06 Jun 2020 08:42:08 -0700</lastBuildDate>
-    
-	<atom:link href="https://aakatev.github.io/blog/tags/functional/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 06 Jun 2020 08:42:08 -0700</lastBuildDate><atom:link href="/tags/functional/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Intro to Functional JavaScript</title>
-      <link>https://aakatev.github.io/blog/posts/javascript-functional-intro/</link>
+      <link>/posts/javascript-functional-intro/</link>
       <pubDate>Sat, 06 Jun 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/javascript-functional-intro/</guid>
+      <guid>/posts/javascript-functional-intro/</guid>
       <description>This article is based on my old cheatsheet. It only includes methods provided by Vanilla JS. If you are looking for more advanced patterns, I recommend to look into Ramda.
  Do you know that out of the box JavaScript has some amazing parts, making it suitable for Functional Programming?
 Folding, Reduction, and Filtering Let&amp;rsquo;s say we have ten bank accounts.
@@ -25,10 +21,10 @@ let accounts = [ { id: 0, balance: 122.</description>
     
     <item>
       <title>Counter Using Functional Approach in Javascript</title>
-      <link>https://aakatev.github.io/blog/posts/javascript-functional-counter/</link>
+      <link>/posts/javascript-functional-counter/</link>
       <pubDate>Thu, 16 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/javascript-functional-counter/</guid>
+      <guid>/posts/javascript-functional-counter/</guid>
       <description>In my previous post, I showed my readers how to implement Singleton in JavaScript using closure, and IIFE.
 This time, I want to show you how to utilize the same building blocks, as well as one more functional programming technique, to implement a basic counter!
 Let&amp;rsquo;s start with a counter that takes a starting number as an argument, and uses closure to keep track of the current count:
@@ -37,10 +33,10 @@ function from(start) { let i = start - 1 function inc() { i = i + 1 return i } r
     
     <item>
       <title>Singleton Pattern in JavaScript</title>
-      <link>https://aakatev.github.io/blog/posts/javascript-singleton/</link>
+      <link>/posts/javascript-singleton/</link>
       <pubDate>Sun, 12 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/javascript-singleton/</guid>
+      <guid>/posts/javascript-singleton/</guid>
       <description>If you come from Java or C++ background, you are probably used to classic OOP model, and it is hard to imagine how you can implement singleton in JavaScript. The answer to this question is to use closures!
 It is the same idea as module patterns, and comes from functional programming. The essence of closure, is creating an inner function in a scope of an outer function. If you know JS, you know that inner function has access to data members that are in the scope of the outer function.</description>
     </item>

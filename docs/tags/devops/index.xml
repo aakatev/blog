@@ -2,40 +2,36 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>devops on Artem&#39;s Digital Garden</title>
-    <link>https://aakatev.github.io/blog/tags/devops/</link>
+    <link>/tags/devops/</link>
     <description>Recent content in devops on Artem&#39;s Digital Garden</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 18 Jul 2020 10:42:08 -0700</lastBuildDate>
-    
-	<atom:link href="https://aakatev.github.io/blog/tags/devops/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 18 Jul 2020 10:42:08 -0700</lastBuildDate><atom:link href="/tags/devops/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Static Website Infrastructure with Terraform</title>
-      <link>https://aakatev.github.io/blog/posts/terraform-static-website/</link>
+      <link>/posts/terraform-static-website/</link>
       <pubDate>Sat, 18 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/terraform-static-website/</guid>
+      <guid>/posts/terraform-static-website/</guid>
       <description>Deploying a static website is one of the easiest task a web developer faces. There is a number of solutions allowing to complete the deployment process in a matter of few minutes, and several buttons clicks. What a wonderful world we live in! However, this approach has one huge limitation. You don&amp;rsquo;t really own the underlying infrastructure. I claim that there is a way you can both do the deployment fast, and own the underlying infrastructure.</description>
     </item>
     
     <item>
       <title>5 DevOps Books to Read for FREE</title>
-      <link>https://aakatev.github.io/blog/posts/5-devops-books-free/</link>
+      <link>/posts/5-devops-books-free/</link>
       <pubDate>Thu, 09 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/5-devops-books-free/</guid>
+      <guid>/posts/5-devops-books-free/</guid>
       <description>Since its very beginning, DevOps movement has been a pretty vast topic, with many followers worldwide. Considering constant iterations and creation of new software, it becomes clear that to succeed in the world of DevOps, you have to do your homework. It means staying up to date with the latest industry trends.
 Whether you are new to the movement, or you are a DevOps veteran, here is a great reading list that will help you to develop your skills.</description>
     </item>
     
     <item>
       <title>4 YouTube Resources to Get Started with Kubernetes</title>
-      <link>https://aakatev.github.io/blog/posts/4-kubernetes-youtube-resources/</link>
+      <link>/posts/4-kubernetes-youtube-resources/</link>
       <pubDate>Tue, 07 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/4-kubernetes-youtube-resources/</guid>
+      <guid>/posts/4-kubernetes-youtube-resources/</guid>
       <description>Kubernetes (K8s) is an open-source system for automating deployment, scaling, and management of containerized applications. It groups containers that make up an application into logical units for easy management and discovery.
 Kubernetes official website
  Reading the definition from Kubernetes official website it becomes clear why people often feel frustrated starting to learn this technology. Today, I prepared a list of YouTube videos that will help you to learn Kubernetes and its architecture incrementally!</description>
@@ -43,10 +39,10 @@ Kubernetes official website
     
     <item>
       <title>Implementing CD Pipeline for Static Website</title>
-      <link>https://aakatev.github.io/blog/posts/hugo-cd-pipeline/</link>
+      <link>/posts/hugo-cd-pipeline/</link>
       <pubDate>Sun, 05 Jul 2020 10:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/hugo-cd-pipeline/</guid>
+      <guid>/posts/hugo-cd-pipeline/</guid>
       <description>One day I decided to create a backup of all my dev.to posts. Programmers are lazy, so I wanted to do as little work as possible, and wanted the final result to look as nice as possible (or at least nicer than Markdown reader on GitHub).
 Final requirements for the project were the following:
  Fully static (cheap/free to host) Markdown support (copy and paste existing material) Continuous deployment (automation is good) Easy to maintain (easy is good)  Based on the requirements, I decided on this simple workflow:</description>
@@ -54,10 +50,10 @@ Final requirements for the project were the following:
     
     <item>
       <title>Deploy EC2 Instance in Minutes with Terraform</title>
-      <link>https://aakatev.github.io/blog/posts/terraform-deploy-ec2/</link>
+      <link>/posts/terraform-deploy-ec2/</link>
       <pubDate>Sun, 19 Apr 2020 08:42:08 -0700</pubDate>
       
-      <guid>https://aakatev.github.io/blog/posts/terraform-deploy-ec2/</guid>
+      <guid>/posts/terraform-deploy-ec2/</guid>
       <description>Everyone using AWS knows that navigating the console could be a major pain. Luckily there is a number of tools aiming to simplify this burden. One of them is Terraform by HashiCorp. Today, I want to introduce the tool, and show how to deploy EC2 instance on aws in minutes.
 Overview Firstly, what is Terraform? In short, it is an IaC (Infrastructure as Code) tool easing a process of delivering software.</description>
     </item>
