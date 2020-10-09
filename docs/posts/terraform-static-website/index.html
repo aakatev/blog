@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="shortcut icon" href="https://aakatev.github.io/blog/favicon.ico">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    
+    
+    
+    <link rel="stylesheet" href="https://aakatev.github.io/blog/styles/main.sass">
+
+    <title>
+  Static Website Infrastructure with Terraform &ndash; Artem&#39;s Digital Garden
+</title>
+  </head>
+  <body class="mb-4">
+    <nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="https://aakatev.github.io/blog/">Artem's Digital Garden</a>
+  </div>
+</nav>
+    
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-lg-6">
+        <div class="mt-5 blog-post">
+          <h1 class="pb-4 mb-4 border-bottom">Static Website Infrastructure with Terraform</h1>
+          <p><p>Deploying a static website is one of the easiest task a web developer faces. There is a number of solutions allowing to complete the deployment process in a matter of few minutes, and several buttons clicks. What a wonderful world we live in! However, this approach has one huge limitation. You don&rsquo;t really own the underlying infrastructure. I claim that there is a way you can both do the deployment fast, and own the underlying infrastructure. You can Terraform it!</p>
+<p>This article is not a guide, but an artifact documenting my journey on the way to deploy a personal blog and its underlying infrastructure. You might want to check out <a href="https://dev.to/aakatev/implementing-cd-pipeline-for-static-website-3p6l">the beginning of the journey</a>, where I share my Continuous Deployment setup.</p>
+<p>TLDR, I have a static Hugo website hosted in S3 bucket. Now it is time to make it production ready!</p>
+<p>Let&rsquo;s define the final specs:</p>
+<ul>
+<li>Domain name (using AWS Route53)</li>
+<li>Distributed by CDN (using AWS Cloudfront)</li>
+<li>SSL/TLS support (using AWS Certificate Manager)</li>
+</ul>
+<h2 id="step-1-get-a-domain-name">Step 1: Get a Domain Name</h2>
+<p>This step is pretty much manual. AWS has a detailed instruction on <a href="https://aws.amazon.com/getting-started/hands-on/get-a-domain/">getting a domain</a>. Note, that AWS automatically creates a hosted zone, and name serve (NS) record for you. It is important that you have an existing valid hosted zone before proceeding to the next step. If you need more information on how to create a new hosted zone, or configure the NS record, please refer to <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/GetInfoAboutHostedZone.html">this part</a> of the AWS guide.</p>
+<h2 id="step-2-provision-the-aws-resources">Step 2: Provision the AWS Resources</h2>
+<p>This article assumes you already know some Terraform. If you are not familiar with it, I have an <a href="https://dev.to/aakatev/deploy-ec2-instance-in-minutes-with-terraform-ip2">introductory level article</a> to get you going. For more detailed introduction, refer to the <a href="https://learn.hashicorp.com/terraform">Terraform learning center</a>.</p>
+<p>I will be using Terraform Cloud in order to store my state. Read more about this configuration on the <a href="https://learn.hashicorp.com/terraform/state/tfc_migration">Terraform website</a>. You can also modify the templates to configure Terraform to use the local backend.</p>
+<p><strong>Templates Folder Structure</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">├── main.tf
+├── outputs.tf
+├── variables.auto.tfvars
+└── variables.tf
+</code></pre></div><p><strong>main.tf</strong></p>
+<p>This is the complete template I use for my website setup. It not only provisions the AWS resources (S3, Route53, Cloudfront, and etc), but also credentials for the CircleCI deployment. If you are not interesting in setting up the CI/CD pipeline, you can exclude IAM User and the Policy from the template.</p>
+<p><strong>Remember, Terraform will store the keys in its <a href="https://www.terraform.io/docs/state/index.html">state</a> as a plaintext. You are responsible for keeping their secrecy.</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#66d9ef">terraform</span> {
+  required_version <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;~&gt; 0.12.25&#34;</span>
+
+  <span style="color:#66d9ef">backend</span> <span style="color:#e6db74">&#34;remote&#34;</span> {
+    hostname     <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;app.terraform.io&#34;</span>
+    organization <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;example-organization&#34;</span>
+
+    <span style="color:#66d9ef">workspaces</span> {
+      name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;example-workspace&#34;</span>
+    }
+  }
+}
+
+<span style="color:#66d9ef">provider</span> <span style="color:#e6db74">&#34;aws&#34;</span> {
+  version <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;~&gt; 2.0&#34;</span>
+  region  <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">region</span>
+}
+
+<span style="color:#66d9ef">data</span> <span style="color:#e6db74">&#34;aws_route53_zone&#34; &#34;static_bucket_zone&#34;</span> {
+  name <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">domain_name</span>
+}
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_s3_bucket&#34; &#34;static_bucket&#34;</span> {
+  bucket <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">domain_name</span>
+  acl    <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;public-read&#34;</span>
+
+  force_destroy <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+
+  <span style="color:#66d9ef">website</span> {
+    index_document <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;index.html&#34;</span>
+  }
+
+  policy <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">&lt;&lt;-</span><span style="color:#66d9ef">EOT</span>
+    {
+      <span style="color:#e6db74">&#34;Version&#34;: &#34;2012-10-17&#34;</span>,
+      <span style="color:#e6db74">&#34;Statement&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
+          {
+              <span style="color:#e6db74">&#34;Sid&#34;: &#34;PublicReadGetObject&#34;</span>,
+              <span style="color:#e6db74">&#34;Effect&#34;: &#34;Allow&#34;</span>,
+              <span style="color:#e6db74">&#34;Principal&#34;: &#34;*&#34;</span>,
+              <span style="color:#e6db74">&#34;Action&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
+                  <span style="color:#e6db74">&#34;s3:GetObject&#34;</span>
+              ],
+              <span style="color:#e6db74">&#34;Resource&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
+                  <span style="color:#e6db74">&#34;arn:aws:s3:::${var.domain_name}/*&#34;</span>
+              ]
+          }
+      ]
+    }
+  <span style="color:#66d9ef">EOT</span>
+}
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_acm_certificate&#34; &#34;static_bucket_certificate&#34;</span> {
+  domain_name       <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">domain_name</span>
+  validation_method <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;DNS&#34;</span>
+
+  tags <span style="color:#f92672">=</span> {
+    terraform <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;true&#34;</span>
+  }
+
+  <span style="color:#66d9ef">lifecycle</span> {
+    create_before_destroy <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+  }
+}
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_route53_record&#34; &#34;static_bucket_record&#34;</span> {
+  zone_id <span style="color:#f92672">=</span> <span style="color:#66d9ef">data</span>.<span style="color:#66d9ef">aws_route53_zone</span>.<span style="color:#66d9ef">static_bucket_zone</span>.<span style="color:#66d9ef">zone_id</span>
+  name    <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">domain_name</span>
+  type    <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;A&#34;</span>
+
+  <span style="color:#66d9ef">alias</span> {
+    name                   <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_cloudfront_distribution</span>.<span style="color:#66d9ef">static_bucket_distribution</span>.<span style="color:#66d9ef">domain_name</span>
+    zone_id                <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_cloudfront_distribution</span>.<span style="color:#66d9ef">static_bucket_distribution</span>.<span style="color:#66d9ef">hosted_zone_id</span>
+    evaluate_target_health <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>
+  }
+}
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_acm_certificate_validation&#34; &#34;static_bucket_certificate&#34;</span> {
+  certificate_arn <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_acm_certificate</span>.<span style="color:#66d9ef">static_bucket_certificate</span>.<span style="color:#66d9ef">arn</span>
+  <span style="color:#66d9ef">timeouts</span> {
+    create <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;20m&#34;</span>
+  }
+}
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_cloudfront_distribution&#34; &#34;static_bucket_distribution&#34;</span> {
+  <span style="color:#66d9ef">origin</span> {
+    <span style="color:#66d9ef">custom_origin_config</span> {
+      http_port              <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;80&#34;</span>
+      https_port             <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;443&#34;</span>
+      origin_protocol_policy <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http-only&#34;</span>
+      origin_ssl_protocols   <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;TLSv1&#34;, &#34;TLSv1.1&#34;, &#34;TLSv1.2&#34;</span>]
+    }
+
+    domain_name <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_s3_bucket</span>.<span style="color:#66d9ef">static_bucket</span>.<span style="color:#66d9ef">website_endpoint</span>
+    origin_id   <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">domain_name</span>
+  }
+
+  enabled             <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+  default_root_object <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;index.html&#34;</span>
+
+  <span style="color:#66d9ef">default_cache_behavior</span> {
+    viewer_protocol_policy <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;redirect-to-https&#34;</span>
+    compress               <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+    allowed_methods        <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;GET&#34;, &#34;HEAD&#34;</span>]
+    cached_methods         <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;GET&#34;, &#34;HEAD&#34;</span>]
+    target_origin_id       <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">domain_name</span>
+    min_ttl                <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    default_ttl            <span style="color:#f92672">=</span> <span style="color:#ae81ff">86400</span>
+    max_ttl                <span style="color:#f92672">=</span> <span style="color:#ae81ff">31536000</span>
+
+    <span style="color:#66d9ef">forwarded_values</span> {
+      query_string <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>
+      <span style="color:#66d9ef">cookies</span> {
+        forward <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;none&#34;</span>
+      }
+    }
+  }
+
+  aliases <span style="color:#f92672">=</span> [<span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">domain_name</span>]
+
+  <span style="color:#66d9ef">restrictions</span> {
+    <span style="color:#66d9ef">geo_restriction</span> {
+      restriction_type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;none&#34;</span>
+    }
+  }
+
+  <span style="color:#66d9ef">viewer_certificate</span> {
+    acm_certificate_arn <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_acm_certificate_validation</span>.<span style="color:#66d9ef">static_bucket_certificate</span>.<span style="color:#66d9ef">certificate_arn</span>
+    ssl_support_method  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;sni-only&#34;</span>
+  }
+}
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_iam_user&#34; &#34;circle_ci_user&#34;</span> {
+  name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;circle-ci&#34;</span>
+}
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_iam_access_key&#34; &#34;circle_ci_access_key&#34;</span> {
+  user <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_iam_user</span>.<span style="color:#66d9ef">circle_ci_user</span>.<span style="color:#66d9ef">name</span>
+}
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_iam_user_policy&#34; &#34;circle_ci_policy&#34;</span> {
+  name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;circle-ci-policy&#34;</span>
+  user <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_iam_user</span>.<span style="color:#66d9ef">circle_ci_user</span>.<span style="color:#66d9ef">name</span>
+
+  policy <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">&lt;&lt;-</span><span style="color:#66d9ef">EOT</span>
+    {
+      <span style="color:#e6db74">&#34;Version&#34;: &#34;2012-10-17&#34;</span>,
+      <span style="color:#e6db74">&#34;Statement&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
+          {
+              <span style="color:#e6db74">&#34;Effect&#34;: &#34;Allow&#34;</span>,
+              <span style="color:#e6db74">&#34;Action&#34;: &#34;s3:*&#34;</span>,
+              <span style="color:#e6db74">&#34;Resource&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
+                  <span style="color:#e6db74">&#34;arn:aws:s3:::${var.domain_name}&#34;</span>,
+                  <span style="color:#e6db74">&#34;arn:aws:s3:::${var.domain_name}/*&#34;</span>
+              ]
+          }
+      ]
+    }
+  <span style="color:#66d9ef">EOT</span>
+}
+
+</code></pre></div><p><strong>variables.tf</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#66d9ef">variable</span> <span style="color:#e6db74">&#34;domain_name&#34;</span> {
+  type        <span style="color:#f92672">=</span> <span style="color:#66d9ef">string</span>
+  description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Website root domain name&#34;</span>
+}
+
+<span style="color:#66d9ef">variable</span> <span style="color:#e6db74">&#34;region&#34;</span> {
+  type        <span style="color:#f92672">=</span> <span style="color:#66d9ef">string</span>
+  description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;AWS region to create resources&#34;</span>
+}
+</code></pre></div><p><strong>outputs.tf</strong></p>
+<p>Again, if you don&rsquo;t use CI/CD, this part can be safely ignored.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#66d9ef">output</span> <span style="color:#e6db74">&#34;circle_ci_access_key&#34;</span> {
+  value <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_iam_access_key</span>.<span style="color:#66d9ef">circle_ci_access_key</span>.<span style="color:#66d9ef">id</span>
+}
+
+<span style="color:#66d9ef">output</span> <span style="color:#e6db74">&#34;circle_ci_access_key_secret&#34;</span> {
+  value <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_iam_access_key</span>.<span style="color:#66d9ef">circle_ci_access_key</span>.<span style="color:#66d9ef">secret</span>
+}
+</code></pre></div><p><strong>variables.auto.tf</strong></p>
+<p>Note, that adding auto suffix to a Terraform variables definition will make the file load automatically.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl">domain_name  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;example.com&#34;</span>
+region       <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;us-east-1&#34;</span>
+</code></pre></div><h2 id="step-3-enjoy-the-result">Step 3: Enjoy the Result</h2>
+<p>After the provisioning is successfully completed, it may still take few minutes for the Cloudfront, and Route53 configurations to fully sync. If you used the AWS CDN services with your domain name before, it is a good idea to <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html">invalidate cache</a>.</p>
+<hr>
+<p>You can find my final result at <a href="https://artem.lol">artem.lol</a>. If you have any questions, or run into issues trying to provision the infrastructure using my template please let me know in comments on my <a href="https://dev.to/aakatev/static-website-infrastructure-with-terraform-jgi">dev.to</a> blog!</p>
+</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+  </body>
+</html>

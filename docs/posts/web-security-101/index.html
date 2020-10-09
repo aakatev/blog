@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="shortcut icon" href="https://aakatev.github.io/blog/favicon.ico">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    
+    
+    
+    <link rel="stylesheet" href="https://aakatev.github.io/blog/styles/main.sass">
+
+    <title>
+  Web Security 101 &ndash; Artem&#39;s Digital Garden
+</title>
+  </head>
+  <body class="mb-4">
+    <nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="https://aakatev.github.io/blog/">Artem's Digital Garden</a>
+  </div>
+</nav>
+    
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-lg-6">
+        <div class="mt-5 blog-post">
+          <h1 class="pb-4 mb-4 border-bottom">Web Security 101</h1>
+          <p><p>The current document was born as part of my personal research on topic of security related to Software (SW), and specifically Web Applications. It is by no means comprehensive, but can be a good place to start getting familiar with the most common threats developers face on the World Wide Web (WWW). Each section aims to introduce a problem, or a technology. Briefly give to a reader an overview of the issue, and provide references for the further research.</p>
+<h1 id="threat-model">Threat Model</h1>
+<blockquote>
+<p>Threat Model is used to identify and explore threats and mitigations within the context of protecting something of value.</p>
+</blockquote>
+<p>Threat Model is applicable to a wide range of things, including SW, hardware (HW), networks, distributed systems, and etc. There are very some technical products which cannot be threat modeled. Although threat modelling can be done at any stage of development, it is preferably to do it as early as possible, so that the findings can be applied to the design of the system.</p>
+<p>Most thread modelling researches aim to answer the following questions:</p>
+<ol>
+<li>What system are we building?
+<ul>
+<li>Application architecture</li>
+<li>Application data flow</li>
+<li>Application data type</li>
+<li>Technologies used</li>
+</ul>
+</li>
+<li>What can go wrong?
+<ul>
+<li>&ldquo;Branistorming&rdquo; phase</li>
+<li>Good stage to consult with STRIDE, Kill Chains, CAPEC and others structures models</li>
+</ul>
+</li>
+<li>What are we going to do about that?
+<ul>
+<li>Applying result of the question 2 to the system from the question 1</li>
+<li>Also known as Threat Modeling Outputs</li>
+</ul>
+</li>
+<li>Did we do a good enough job?
+<ul>
+<li>Testing, and checking whether means from the question 3 are sufficient</li>
+</ul>
+</li>
+</ol>
+<p><a href="https://owasp.org/www-community/Application_Threat_Modeling">Lean more</a> about Threat Model.</p>
+<h1 id="open-web-application-security-project-owasp">Open Web Application Security Project (OWASP)</h1>
+<blockquote>
+<p>The <a href="https://owasp.org">OWASP</a> is a nonprofit foundation that works to improve the security of software. Through community-led open source software projects, hundreds of local chapters worldwide, tens of thousands of members, and leading educational and training conferences, the OWASP Foundation is the source for developers and technologists to secure the web.</p>
+</blockquote>
+<h2 id="owasp-top-ten">OWASP Top Ten</h2>
+<p>The OWASP Top 10 is a standard awareness document for web application security. It represents a broad consensus about the most critical security risks to web applications. Project has several itteration, and usual update cycle is 3 to 4 years.</p>
+<p>The most recent itteration of Top Ten:</p>
+<ol>
+<li>Injection</li>
+<li>Broken Authentication</li>
+<li>Sensitive Data Exposure</li>
+<li>XML External Entities (XXE)</li>
+<li>Broken Access Control</li>
+<li>Security Misconfiguration</li>
+<li>Cross-Site Scripting (XSS)</li>
+<li>Insecure Deserialization</li>
+<li>Using Components with Known Vulnerabilities</li>
+<li>Insufficient Logging and Monitoring</li>
+</ol>
+<p><a href="https://owasp.org/www-project-top-ten/">Learn more</a> about OWASP Top Ten.</p>
+<h2 id="owasp-web-security-testing-guide">OWASP Web Security Testing Guide</h2>
+<p>The WSTG is the premier cybersecurity testing resource for web application developers and security professionals. It is a comprehensive guide to testing the security of web applications and web services. Created by the collaborative efforts of cybersecurity professionals and dedicated volunteers, the WSTG provides a framework of best practices used by penetration testers and organizations all over the world.</p>
+<p><a href="https://owasp.org/www-project-web-security-testing-guide/">Learn more</a> about OWASP WSTG.</p>
+<h2 id="owasp-cheat-sheet-series">OWASP Cheat Sheet Series</h2>
+<p>The OWASP Cheat Sheet Series was created to provide a concise collection of high value information on specific application security topics. These cheat sheets were created by various application security professionals who have expertise in specific topics.</p>
+<p><a href="https://cheatsheetseries.owasp.org/">Learn more</a> about OWASP Cheat Sheet Series.</p>
+<h1 id="common-attacks">Common Attacks</h1>
+<p>This section introduces 3 common attack vectors, and ways to prevent the exploits.</p>
+<h2 id="cross-site-scripting-xss">Cross-Site Scripting (XSS)</h2>
+<h3 id="overview">Overview</h3>
+<p>An attacker injects code in place of a text, and force application to execute it. Prevalant vector of attack against client side applications. Older browsers, like IE, are especially sensitive to this kind of attack. Injection itself commonly occures using Man-in-the-Middle attack, and HTTPS downgrade.</p>
+<h3 id="types">Types</h3>
+<ul>
+<li>Stored XSS - Code injection in a database or other persistent storage.</li>
+<li>Reflected XSS - Affected code is injected in web application client from server, or other outside source.</li>
+<li>DOM Based XSS - Attacking a web application client directly, without any server involvement.</li>
+<li>Blind XSS - Similar to Stored XSS. Attacking some other application used by the main application as runtime dependency.</li>
+</ul>
+<h3 id="common-danger-zones">Common Danger Zones</h3>
+<ul>
+<li>WYSIWYG (User generated rich text)</li>
+<li>Non-text inputs (File uploads)</li>
+<li>Embedded content</li>
+<li>Browser plugins</li>
+<li>Third party UI libraries</li>
+<li>Third file compression libraries</li>
+<li>Anywhere user can insert URL directly</li>
+<li>Anywhere user input is sent back (Reflected XSS)</li>
+<li>Anywhere query parameters are rendered into DOM (DOM Based XSS)</li>
+<li>Anywhere where web application renders elements directly into DOM using JS (especially using <code>innerHTML</code> property of an element)</li>
+<li>Anywhere unsanitized user data is processed by script, or template engine</li>
+<li>Depending on browser, pdf viewer can execute third party JS, and thus are vulnareble</li>
+</ul>
+<h3 id="defenses">Defenses</h3>
+<h4 id="most-common-prevention-measures-are">Most common prevention measures are:</h4>
+<ul>
+<li>Any form of user input should be treated as value, not as code</li>
+<li>Sanitize data before it gets stored into persistent storage</li>
+<li>Sanitize data before it renders to end user</li>
+<li>Restrict supported upload formats</li>
+<li>Compress images before storing</li>
+<li>Don&rsquo;t use unescaped expressions while rendering or templating UI</li>
+<li>Use only reliable third party UI and file compression libraries, providing a list of known vulnerabilities, and customer support</li>
+</ul>
+<h4 id="content-security-policy-csp">Content Security Policy (CSP)</h4>
+<p>Browsers JS engine cannot tell the difference between scripts fetched from different origins. Eventually, all the scripts get executed as single context. CSP allows to tell supported browsers which sources they could execute, and which not. CSP is set as HTTP response header.</p>
+<h4 id="useful-csp-directives">Useful CSP directives:</h4>
+<ul>
+<li>child-src - whitelist frames ans workers</li>
+<li>connect-src - whitelist HTTP(fetch), WS, and EventSource</li>
+<li>form-action - whitelist form post</li>
+<li>img-src, media-src, object-src, style-src - whitelist of media and style</li>
+<li>upgrade-insecure-requests - upgrade HTTP links to HTTPS</li>
+<li>default-src - general fallback, for all resources types</li>
+</ul>
+<h2 id="cross-site-request-forgery-csrf">Cross-Site Request Forgery (CSRF)</h2>
+<h3 id="overview-1">Overview</h3>
+<p>CSRF attack is based on taking advantage of browser passing cookies and basic authentication credentials along with requests. Attacker insert a resource, or snippet of code (such as HTML form) to another website, containing a link to the target site. Web browser attempting to load the resource, will make a request with the cookie/credentials attacked.</p>
+<h3 id="common-danger-zones-1">Common Danger Zones</h3>
+<ul>
+<li>Server API endpoints (especially handling sensitive data)</li>
+<li>Applications implementing cookie or basic authentication schemes</li>
+</ul>
+<h3 id="defenses-1">Defenses</h3>
+<h5 id="most-common-prevention-measures-are-1">Most common prevention measures are:</h5>
+<ul>
+<li>Stay align with REST conventions while implementing API (distinguish safe and idempotent methods)</li>
+<li>Implement authentication using different schmes (web storage)</li>
+</ul>
+<h5 id="csrf-token">CSRF Token</h5>
+<p>The server generates some value, and transmitted it to the client. Client included this value with subsequnet request. The value should be unique, and unpredictable in order for the scheme to be secure.</p>
+<h5 id="validate-origin">Validate Origin</h5>
+<p>Modern browsers attach Origin header, which cannot be altered by client side scripts. Origin can be checked on the server. If request is coming through proxy, the origin header might be replaced with Referer.</p>
+<h5 id="cross-origin-resource-sharing-cors">Cross-Origin Resource Sharing (CORS)</h5>
+<p>A mechanism to tell a browsers to give a web client application running at one origin, access to some resources from a different origin. CORS is set as a HTTP header</p>
+<h2 id="clickjacking">Clickjacking</h2>
+<h3 id="overview-2">Overview</h3>
+<p>Clickjacking, or &ldquo;UI redress attack&rdquo;, occures when an attacker tricks a user into clicking on a button or link on another page rather than the user originally intended. Thus, the attacker is &ldquo;hijacking&rdquo; clicks and routing them to another page. Some versions of the attack can capture keystroked as well.</p>
+<h3 id="common-danger-zones-2">Common Danger Zones</h3>
+<ul>
+<li>Almost anywhere user can interact with your application</li>
+<li>Most commonly, forms, text inputs, buttons, file uploads, and etc</li>
+</ul>
+<h3 id="defenses-2">Defenses</h3>
+<h5 id="x-frame-options-response-headers">X-Frame-Options Response Headers</h5>
+<p>The X-Frame-Options header can be used to indicate whether or not a browser should be allowed to render a page inside frame/iframe element. Sites can use the header to ensure that their content is not going to be embeded.</p>
+<p>X-Frame-Options headers can have the following values:</p>
+<ul>
+<li>DENY - prevents any domain from framing the content (recommended setting).</li>
+<li>SAMEORIGIN - whitelists current site to frame a content.</li>
+<li>ALLOW-FROM - whitelists some specific site to frame a content.</li>
+</ul>
+<h5 id="content-security-policy-frame-ancestors-directive">Content-Security-Policy frame-ancestors directive</h5>
+<p>Similar to X-Frame-Options headers, the frame-ancestors directive can be used in a Content-Security-Policy header to indicate whether or not a browser should be allowed to render a page inside frame/iframe element.</p>
+<h5 id="common-values-of-csp-frame-ancestors">Common values of CSP frame-ancestors:</h5>
+<ul>
+<li>&lsquo;none&rsquo; - prevents any domain from framing the content (recommended setting).</li>
+<li>&lsquo;self&rsquo; - whitelists current site to frame a content.</li>
+<li><a href="https://mysite.com">https://mysite.com</a> - whitelists mysite.com on port 443 (HTTPS).</li>
+</ul>
+<p>X-Frame-Options headers Content-Security-Policy frame-ancestors directive have limited browser support, which makes some browsers vulnerable to the attack even with appropriate settings in place.</p>
+<h5 id="frame-breaking-scripts">Frame Breaking Scripts</h5>
+<p>One way to defend against clickjacking is to include a &ldquo;frame-breaker&rdquo; script in each page that should not be framed. <a href="https://cheatsheetseries.owasp.org/cheatsheets/Clickjacking_Defense_Cheat_Sheet.html#best-for-now-legacy-browser-frame-breaking-script">Learn more</a> about &ldquo;frame-breaker&rdquo; scripts.</p>
+<p>The best form of protection against Clickjacking is combination of Frame Breaking scripts, X-Frame-Options Response Headers, and Content-Security-Policy frame-ancestors directive. It allows to have an adequare coverage for most modern, and legacy browsers.</p>
+<hr>
+<p>This article is based on my <a href="https://aakatev.github.io/web-security">Web Security Reference</a>.</p>
+</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+  </body>
+</html>

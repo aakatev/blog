@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="shortcut icon" href="https://aakatev.github.io/blog/favicon.ico">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    
+    
+    
+    <link rel="stylesheet" href="https://aakatev.github.io/blog/styles/main.sass">
+
+    <title>
+  Install Redis on Linux Machine &ndash; Artem&#39;s Digital Garden
+</title>
+  </head>
+  <body class="mb-4">
+    <nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="https://aakatev.github.io/blog/">Artem's Digital Garden</a>
+  </div>
+</nav>
+    
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-lg-6">
+        <div class="mt-5 blog-post">
+          <h1 class="pb-4 mb-4 border-bottom">Install Redis on Linux Machine</h1>
+          <p><blockquote>
+<p>This article was originally published in my <a href="https://medium.com/@aakatev/redis-the-proper-way-df1157e146ca">Medium blog</a> with the title &ldquo;Redis the Proper Way&rdquo;. When I decided to re-publish it on <code>dev.to</code>, I found the title to be misleading. There are a lot you should do with redis to make it the &ldquo;proper way&rdquo; that I have touched upon. Thus, now the article is titled more appropriately.</p>
+</blockquote>
+<p>When I first started familiarizing myself with redis, I thought about it as a big key value store. Sort of like a fancy hashmap. That said, according to redis official website, it is “in-memory data structure store”. The difference is, data structure store can have keys represented as another data structure. Some of the possibilities are strings, hashes, sets, and lists. If you think about it, this kind of store gives almost infinite abilities to design a broker, cache, or even database.</p>
+<p>At my previous work, we were using redis to store a state of a load balancer, managing a pool of video streaming servers. That said, this tutorial aims to be helpful for any redis applications. I will cover steps needed to setup redis on your linux machine, and configure it the proper way. So, let’s start!</p>
+<p>First of all, I assume that you already installed make and gcc. If you are using any firewall solution, please allow traffic on port which redis is going to be running on! After you checkout all of the prerequisites, we can proceed.</p>
+<h2 id="installation">Installation</h2>
+<p>Download Redis source code, and build it:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">wget http://download.redis.io/redis-stable.tar.gz
+tar xvzf redis-stable.tar.gz
+cd redis-stable
+make
+</code></pre></div><p>It is highly possible that you see the following error:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zmalloc.h:50:10: fatal error: jemalloc/jemalloc.h: No such file or directory
+ <span style="color:#75715e">#include &lt;jemalloc/jemalloc.h&gt;</span>
+</code></pre></div><p>In this case you have to run:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">make distclean
+make
+</code></pre></div><p>Once build completed, copy the executables into <code>/usr/local/bin</code>, or any other location you store your executables.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo cp src/redis-server /usr/local/bin/
+sudo cp src/redis-cli /usr/local/bin/
+</code></pre></div><p>Congratulations, you successfully installed redis server, and cli tooling on your vm! We can end it here, but there are quite a few step to make the configuration complete.</p>
+<h2 id="configuration">Configuration</h2>
+<p>Next step is to create init script, so redis is restarted automatically every time your server reboots. Example of the script could be found in the source code, so we can just copy it, and later modify.</p>
+<p>In this guide, I will use a port number to easier identify which redis-server instance the file is related to. You don’t have to do it, but it is a common convention.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo cp utils/redis_init_script /etc/init.d/redis_5000
+</code></pre></div><p>Once done, open the file with your favorite text editor, and set proper <code>REDISPORT</code> value, in my case <code>5000</code>.</p>
+<p>Now, create directories to store Redis config files, and persistent data:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo mkdir /etc/redis
+sudo mkdir /var/redis/5000 -p
+</code></pre></div><p>Copy configuration file, from source foler to your newly created directory</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo cp redis.conf /etc/redis/5000.conf
+</code></pre></div><p>Make the following changes to your configuration file:</p>
+<ul>
+<li>Set <code>daemonize</code> to <code>yes</code></li>
+<li>Set the <code>pidfile</code> to <code>/var/run/redis_5000.pid</code></li>
+<li>Change the <code>port</code> to <code>5000</code></li>
+<li>Set the <code>logfile</code> to <code>/var/log/redis_5000.log</code></li>
+<li>Set the <code>dir</code> to <code>/var/redis/5000</code></li>
+<li>Set <code>requirepass</code> to some secure password. I will set mine to <code>SUPER_SECRET_PASSWORD</code> (Hint: secure password can be generated by running <code>openssl rand -hex 32</code>)</li>
+</ul>
+<p>Don’t forget to link your init script:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo update-rc.d redis_5000 defaults
+</code></pre></div><p>Finally, you can start your Redis:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo /etc/init.d/redis_5000 start
+</code></pre></div><p>To test your installation and configuration, you can use Redis cli client:</p>
+<pre><code>redis-cli -p 5000
+</code></pre><p>It will open a new connection. At first you will have to authenticate by running <code>AUTH SUPER_SECRET_PASSWORD</code>. Now, you enter <code>PING</code>, and you should get back <code>PONG</code>!</p>
+</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+  </body>
+</html>

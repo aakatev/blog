@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="shortcut icon" href="https://aakatev.github.io/blog/favicon.ico">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    
+    
+    
+    <link rel="stylesheet" href="https://aakatev.github.io/blog/styles/main.sass">
+
+    <title>
+  Intro to Functional JavaScript &ndash; Artem&#39;s Digital Garden
+</title>
+  </head>
+  <body class="mb-4">
+    <nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="https://aakatev.github.io/blog/">Artem's Digital Garden</a>
+  </div>
+</nav>
+    
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-lg-6">
+        <div class="mt-5 blog-post">
+          <h1 class="pb-4 mb-4 border-bottom">Intro to Functional JavaScript</h1>
+          <p><blockquote>
+<p>This article is based on my old cheatsheet. It only includes methods provided by Vanilla JS. If you are looking for more advanced patterns, I recommend to look into <a href="https://ramdajs.com/">Ramda</a>.</p>
+</blockquote>
+<p>Do you know that out of the box JavaScript has some amazing parts, making it suitable for Functional Programming?</p>
+<h2 id="folding-reduction-and-filtering">Folding, Reduction, and Filtering</h2>
+<p>Let&rsquo;s say we have ten bank accounts.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">accounts</span> <span style="color:#f92672">=</span> [
+  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">balance</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">122.01</span> },
+  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">balance</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">15.111</span> },
+  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>, <span style="color:#a6e22e">balance</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">7703.5</span> },
+  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">3</span>, <span style="color:#a6e22e">balance</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">9333.2</span> },
+  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">4</span>, <span style="color:#a6e22e">balance</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1472.111</span> },
+  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">5</span>, <span style="color:#a6e22e">balance</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">993.5</span> },
+  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">6</span>, <span style="color:#a6e22e">balance</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0.222</span> },
+  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">7</span>, <span style="color:#a6e22e">balance</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1599.111</span> },
+  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">8</span>, <span style="color:#a6e22e">balance</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">779.5</span> },
+  { <span style="color:#a6e22e">id</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">9</span>, <span style="color:#a6e22e">balance</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">93.2</span> }
+];
+</code></pre></div><p>To warm-up, let&rsquo;s find the total balance. We can do it by folding account balances using addition operator, and initial value of <code>0</code>. In JavaScript it can be accomplished using <code>reduce()</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">totalBalance</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">accounts</span>.<span style="color:#a6e22e">reduce</span>(
+  (<span style="color:#a6e22e">sum</span>, <span style="color:#a6e22e">account</span>) =&gt; <span style="color:#a6e22e">sum</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">account</span>.<span style="color:#a6e22e">balance</span>,
+  <span style="color:#ae81ff">0</span>
+);
+</code></pre></div><p>Now, what if we need to get all the accounts with the balance of 700.00 or higher? It is done using <code>filter()</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">filteredAccounts</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">accounts</span>.<span style="color:#a6e22e">filter</span>(
+  (<span style="color:#a6e22e">account</span>) =&gt; <span style="color:#a6e22e">account</span>.<span style="color:#a6e22e">balance</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">700</span>
+);
+</code></pre></div><p>What if we only need to work with account <code>id</code>s? Function <code>map()</code> is really helpful for this case!</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">ids</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">accounts</span>.<span style="color:#a6e22e">map</span>((<span style="color:#a6e22e">account</span>) =&gt; <span style="color:#a6e22e">account</span>.<span style="color:#a6e22e">id</span>);
+</code></pre></div><p>We can also chain these functions, and manipulate collections in short, and elegant way.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">accounts</span>
+  .<span style="color:#a6e22e">map</span>((<span style="color:#a6e22e">account</span>) =&gt; <span style="color:#a6e22e">account</span>.<span style="color:#a6e22e">balance</span>)
+  .<span style="color:#a6e22e">filter</span>((<span style="color:#a6e22e">balance</span>) =&gt; <span style="color:#a6e22e">balance</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">100</span>)
+  .<span style="color:#a6e22e">reduce</span>((<span style="color:#a6e22e">sum</span>, <span style="color:#a6e22e">balance</span>) =&gt; <span style="color:#a6e22e">sum</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">balance</span>, <span style="color:#ae81ff">0</span>);
+</code></pre></div><p>Amazing, is not it? Now, let&rsquo;s see some more!</p>
+<h2 id="es6-destructuring-operator">ES6 Destructuring Operator</h2>
+<p>We have an array of ten numbers.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">numbers</span> <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">8</span>,<span style="color:#ae81ff">9</span>];
+</code></pre></div><p>This is how we can iterate, and print them using the Tail recursion.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">printArray</span>(<span style="color:#a6e22e">array</span>) {
+  <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">array</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+    <span style="color:#66d9ef">let</span> [<span style="color:#a6e22e">head</span>, ...<span style="color:#a6e22e">tail</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">array</span>;
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">head</span>);
+    <span style="color:#a6e22e">printArray</span>(<span style="color:#a6e22e">tail</span>);
+  }
+}
+</code></pre></div><p>Using the destructuring operator, we can also create variadic functions, similar to ones in LISP.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">variadicPrint</span>(...<span style="color:#a6e22e">array</span>) {
+  <span style="color:#a6e22e">array</span>.<span style="color:#a6e22e">forEach</span>(<span style="color:#a6e22e">element</span> =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">element</span>))
+}
+</code></pre></div><p>All the following calls to the function above are legal.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">variadicPrint</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>);
+<span style="color:#a6e22e">variadicPrint</span>(<span style="color:#ae81ff">0</span>);
+<span style="color:#a6e22e">variadicPrint</span>();
+<span style="color:#a6e22e">variadicPrint</span>(<span style="color:#e6db74">&#34;Hello&#34;</span>, <span style="color:#e6db74">&#34;world&#34;</span>);
+</code></pre></div><p>Finally, I already posted an <a href="https://dev.to/aakatev/counter-using-functional-approach-in-javascript-5d5h">article about closures</a>, which is probably the best part of the JavaScript.</p>
+</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+  </body>
+</html>

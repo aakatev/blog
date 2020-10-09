@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="shortcut icon" href="https://aakatev.github.io/blog/favicon.ico">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    
+    
+    
+    <link rel="stylesheet" href="https://aakatev.github.io/blog/styles/main.sass">
+
+    <title>
+  Getting Data from Cosmos Hub using Node JS &ndash; Artem&#39;s Digital Garden
+</title>
+  </head>
+  <body class="mb-4">
+    <nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="https://aakatev.github.io/blog/">Artem's Digital Garden</a>
+  </div>
+</nav>
+    
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-lg-6">
+        <div class="mt-5 blog-post">
+          <h1 class="pb-4 mb-4 border-bottom">Getting Data from Cosmos Hub using Node JS</h1>
+          <p><p>In my opinion Cosmos SDK is a really interesting project. My favorite part of their development is IBC. I like the idea of having a protocol for different Blockchains to exchange data in secure and consistent manner. I also like how Tendermint and Cosmos developers find inspiration in the way Internet was implemented. It is one of the topics that excites me either. It is so fascinating how we created all these layers of abstraction and encapsulation, in order to transport data from one physical point to another.</p>
+<p>As a developer myself, I have worked on several project related to Cosmos. Some of them required extracting data from the network. Although Gaia Client implements REST, there are some small nuances I have found that simplified my day to day workflow.</p>
+<p>First of all, if you are going to interact with Cosmos using REST, this is your number one <a href="https://cosmos.network/rpc/">resource</a>. This reference gives you the most updated information on all the available endpoints, and query or url parameters.</p>
+<p>You can use any http client, like axios, since it is REST. Most of the stuff is pretty straightforward until you come to a point, where you want to scrape large amounts of data, and map it. Let&rsquo;s say I want to get all the information on all validators, including their delegations, and rewards. There is no single endpoint that can get you that. In other words, you will have to make at least multiple requests. To be concrete, you will have to do 3 requests to get bonded, unbonded, and unbonding validators. Then, we want need 2 requests per validator to get delegations, and unbonding delegations. Finally, 2 more per each to get rewards, and outstanding rewards.</p>
+<p>This is pretty essential information for someone building a Cosmos explorer. That said, it is not even complete. The point is, you will have to make a big number of requests. Considering asynchronous nature of Node JS, it becomes really easy to overflow your Cosmos node with requests! As a solution here, we can limit a number of maximum concurrent connections.</p>
+<p>I will give an example using axios, but imagine most http client libraries can be configured in similar manner:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">http</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;http&#39;</span>)
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">https</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;https&#39;</span>)
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">axios</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;axios&#39;</span>)
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">MAX_CONCURRENT</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">httpAgent</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Agent</span>({
+  <span style="color:#a6e22e">maxSockets</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">MAX_CONCURRENT</span>,
+})
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">httpsAgent</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">https</span>.<span style="color:#a6e22e">Agent</span>({
+  <span style="color:#a6e22e">maxSockets</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">MAX_CONCURRENT</span>,
+})
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">client</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">axios</span>.<span style="color:#a6e22e">create</span>({
+  <span style="color:#a6e22e">httpAgent</span>,
+  <span style="color:#a6e22e">httpsAgent</span>,
+})
+</code></pre></div><p>Notice, we are configuring both http, and https agents before passing then to axios.create(). It is really important in setting, where you might have separate protocols in development and production environments.</p>
+<p>Another issue that might occur, are failing requests. Sometimes, certain validator might not have any delegations, or for whatever reason the endpoint returned you 404. In most cases, simply catching the error is not enough! Remember, the next step after getting the data, is mapping it all together! In this case, you want to have some reliable indicator to differentiate cases where data is not available, from cases where result actually arrived empty. One way to do it, is to use response interceptors.</p>
+<p>Again, I am going to show an example using Axios, but it could be applied to any other http client library.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">axios</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">require</span>(<span style="color:#e6db74">&#39;axios&#39;</span>)
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">client</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">axios</span>.<span style="color:#a6e22e">create</span>()
+
+<span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">interceptors</span>.<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">use</span>(
+  <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">response</span>) {
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">result</span>
+  },
+  <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">error</span>) {
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">error</span>)
+    <span style="color:#66d9ef">return</span> {
+      <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> {
+        <span style="color:#a6e22e">result</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
+      },
+    }
+  }
+)
+</code></pre></div><p>Notice, how we are handling not only cases of failure, but also success. This is an easy way to predictably structure data, and decreasing chance of runtime errors on processing step.</p>
+<p>Of course, all of the tips are applicable to other cases when you might want to extract massive amount of data using Node JS, but they are essential when working with Cosmos.</p>
+<p>Final words, I created a tiny library that implements all of this best practices mentioned here, as well as wraps Cosmos endpoints with minimal promise-based layer. The library is available on <a href="https://github.com/cyphercore-dev/cosmos-service">GitHub</a>, and is fully open source and free to use. It is still work in progress, but most of its implemented interface is going to remain the same. It is highly minimalistic and should be viewed as a tool to build other libraries, or services using JS, and Node JS.</p>
+</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+  </body>
+</html>

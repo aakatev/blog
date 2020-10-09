@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="shortcut icon" href="https://aakatev.github.io/blog/favicon.ico">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    
+    
+    
+    <link rel="stylesheet" href="https://aakatev.github.io/blog/styles/main.sass">
+
+    <title>
+  Deploy EC2 Instance in Minutes with Terraform &ndash; Artem&#39;s Digital Garden
+</title>
+  </head>
+  <body class="mb-4">
+    <nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="https://aakatev.github.io/blog/">Artem's Digital Garden</a>
+  </div>
+</nav>
+    
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-lg-6">
+        <div class="mt-5 blog-post">
+          <h1 class="pb-4 mb-4 border-bottom">Deploy EC2 Instance in Minutes with Terraform</h1>
+          <p><p>Everyone using AWS knows that navigating the console could be a major pain. Luckily there is a number of tools aiming to simplify this burden. One of them is Terraform by HashiCorp. Today, I want to introduce the tool, and show how to deploy EC2 instance on aws in minutes.</p>
+<h2 id="overview">Overview</h2>
+<p>Firstly, what is Terraform? In short, it is an IaC (Infrastructure as Code) tool easing a process of delivering software. It allows you to define your infrastructure in a similar way you write your applications. With this approach you can apply some of the application development practices to you deployment process. For example, using a control system to keep track of code changes, and easily track bugs.</p>
+<p>One major difference between Terraform code, and most mainstream programming languages, is that the first one encourage a declarative style, rather than procedural. Programmer specifies some desired state, and the software is going to figure out how to get their. While this approach is not great for application development, it is proven reliable in IaC world.</p>
+<p>A classic example, one day John created 10 EC2 instances. Few weeks after, he realized that 10 is barely enough to cover his needs, and 5 more EC2 instances had to be added to his pool. In procedural approach, John would have to go and create 5 more instances. On the other hand, declarative tool allows John to specify how many EC2 instances he needs in total. In other words, John won&rsquo;t have to worry about his current state of the infrastructure, as Terraform, or any other declarative tool, is taking care of it!</p>
+<h2 id="installation">Installation</h2>
+<p>Terraform supports most major OS. I will not spend much time on this section, since <a href="https://learn.hashicorp.com/terraform/getting-started/install.html">official documentation</a> covers it pretty extensively.</p>
+<h2 id="configure-aws-cli">Configure AWS CLI</h2>
+<p>For this tutorial, you will need to have AWS CLI installed. The official guide could be found <a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html">here</a>.</p>
+<p>After AWS CLI is installed, you need to configure it! First, create a new <a href="https://console.aws.amazon.com/iam/home?#/security_credentials">access keys</a>. Now, in your terminal run <code>aws configure</code>, and enter your credentials. It will allow Terraform AWS provider to access AWS API.</p>
+<h2 id="create-ec2">Create EC2</h2>
+<p>It is time for the fun part! Create a new directory. Inside, create a file with arbitrary name, but <code>tf</code> extension, and the following content:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#66d9ef">provider</span> <span style="color:#e6db74">&#34;aws&#34;</span> {
+  profile <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;default&#34;</span>
+  region  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;us-west-1&#34;</span>
+}
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_key_pair&#34; &#34;ubuntu&#34;</span> {
+  key_name   <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ubuntu&#34;</span>
+  public_key <span style="color:#f92672">=</span> <span style="color:#66d9ef">file</span>(<span style="color:#e6db74">&#34;key.pub&#34;</span>)
+}
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_security_group&#34; &#34;ubuntu&#34;</span> {
+  name        <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;allow-ssh&#34;</span>
+  description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Allow SSH traffic&#34;</span>
+
+  <span style="color:#66d9ef">ingress</span> {
+    description <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;SSH&#34;</span>
+    from_port   <span style="color:#f92672">=</span> <span style="color:#ae81ff">22</span>
+    to_port     <span style="color:#f92672">=</span> <span style="color:#ae81ff">22</span>
+    protocol    <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;tcp&#34;</span>
+    cidr_blocks <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;0.0.0.0/0&#34;</span>]
+  }
+
+  <span style="color:#66d9ef">egress</span> {
+    from_port   <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    to_port     <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    protocol    <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;-1&#34;</span>
+    cidr_blocks <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;0.0.0.0/0&#34;</span>]
+  }
+
+  tags <span style="color:#f92672">=</span> {
+    Name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;allow_all&#34;</span>
+  }
+}
+
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_instance&#34; &#34;ubuntu&#34;</span> {
+  key_name      <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_key_pair</span>.<span style="color:#66d9ef">ubuntu</span>.<span style="color:#66d9ef">key_name</span>
+  ami           <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ami-03ba3948f6c37a4b0&#34;</span>
+  instance_type <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;t2.micro&#34;</span>
+
+  tags <span style="color:#f92672">=</span> {
+    Name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ubuntu&#34;</span>
+  }
+
+  vpc_security_group_ids <span style="color:#f92672">=</span> [
+    <span style="color:#66d9ef">aws_security_group</span>.<span style="color:#66d9ef">ubuntu</span>.<span style="color:#66d9ef">id</span>
+  ]
+
+  <span style="color:#66d9ef">connection</span> {
+    type        <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ssh&#34;</span>
+    user        <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ubuntu&#34;</span>
+    private_key <span style="color:#f92672">=</span> <span style="color:#66d9ef">file</span>(<span style="color:#e6db74">&#34;key&#34;</span>)
+    host        <span style="color:#f92672">=</span> <span style="color:#66d9ef">self</span>.<span style="color:#66d9ef">public_ip</span>
+  }
+
+}
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_eip&#34; &#34;ubuntu&#34;</span> {
+  vpc      <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+  instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_instance</span>.<span style="color:#66d9ef">ubuntu</span>.<span style="color:#66d9ef">id</span>
+}
+</code></pre></div><p>The best part about Terraform, people familiar with AWS, can guess all the created resources by looking at the file! We are going to create EC2 T2 Micro instance with AMI 03ba3948f6c37a4b0, new security group allowing inbound traffic on port 22, for SSH, new SSH key pair, and associate, and allocate Elastic IP for our instance.</p>
+<p>Notice, that I am using a local key pair. The keys should be located in the same folder as your Terraform file, and be named <code>keys.pub</code>, and <code>keys</code>. You can change your key location value, or even <a href="https://www.terraform.io/docs/providers/aws/r/key_pair.html">hardcode the key</a> directly in your program.</p>
+<p>I advice you to generate a new key, specifically for this tutorial! On Linux machine it could be done using <code>ssh-keygen</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key <span style="color:#f92672">(</span>/home/dev/.ssh/id_rsa<span style="color:#f92672">)</span>: key
+Enter passphrase <span style="color:#f92672">(</span>empty <span style="color:#66d9ef">for</span> no passphrase<span style="color:#f92672">)</span>: 
+Enter same passphrase again: 
+Your identification has been saved in key.
+Your public key has been saved in key.pub.
+The key fingerprint is:
+SHA256:K+5CJqeyyfx/Wlwg0yb9P3mJd+nqyQu/cHq8bLO+0J4 dev@pop-os
+The key<span style="color:#960050;background-color:#1e0010">&#39;</span>s randomart image is:
++---<span style="color:#f92672">[</span>RSA 2048<span style="color:#f92672">]</span>----+
+|                 |
+|      o          |
+|     + <span style="color:#f92672">=</span>         |
+|      <span style="color:#f92672">=</span> o        |
+|        So       |
+|  . + . ... + . .|
+|   *  .o.  O.* o |
+|+.. ...o    <span style="color:#75715e">#==  |</span>
+|o<span style="color:#f92672">=</span>...<span style="color:#f92672">==</span>    .<span style="color:#f92672">=</span>EO. |
++----<span style="color:#f92672">[</span>SHA256<span style="color:#f92672">]</span>-----+
+</code></pre></div><p>Don&rsquo;t forget to setup correct permission to the keys:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chmod <span style="color:#ae81ff">400</span> key*
+</code></pre></div><p>Once previous steps completed, you can finally provision your VM! First, initialize Terraform project, and pull all the necessary dependencies:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform init
+</code></pre></div><p>You normally only need to do it once for each project, but the command is idempotent, which means it is safe to run it again. Now that the project is ready, let&rsquo;s provision our EC2:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">terraform apply 
+</code></pre></div><p>Type <code>yes</code>, and within 2 minutes your AWS resources will be allocated! If you go to your AWS console, you will see that EC2 instances is up and running. You can SSH to it using the key we created earlier!</p>
+<h2 id="changes-and-termination">Changes and Termination</h2>
+<p>As I said earlier, Terraform is declarative. In case you need to make any changes to your EC2, simply change your Terraform file, and run <code>terraform apply</code> again! Once you decided that resources no longer needed, you can run <code>terraform destroy</code>, and terminate them. As easy as that!</p>
+<h2 id="version-control">Version Control</h2>
+<p>If you are planning to use Git as version control for your Terraform projects, I recommend to create <code>.gitignore</code> looking the following way:</p>
+<pre><code>.terraform
+*.tfstate
+*.tfstate.backup
+</code></pre><p>As for tracking your state, there are various ways of dealing with the issue, but they all are out of scope of this tutorial. If you are interested in this question, I recommend Chapter 3 of <a href="https://www.terraformupandrunning.com/">Terraform: Up &amp; Running</a> by <a href="https://github.com/brikis98">Yevgeniy Brikman</a>. This book is one of the best sources on Terraform, and extensively covers most of the best practices around the tool!</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>I showed you how to create an EC2 instance on AWS using Terraform. Although the first time it may take you some time to install the tool, and configure AWS provider, the provision itself take on average less than 2 minutes! The best part, Terraform is compatible with most major Cloud providers, like AWS, GCD, Azure, and Digital Ocean. It has a great community support, and expandable using modules.</p>
+<p>Finally, the source and brief instructions for this tutorial is available on <a href="https://github.com/aakatev/terraform-aws">GitHub</a>.</p>
+</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+  </body>
+</html>

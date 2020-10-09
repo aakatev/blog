@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="shortcut icon" href="https://aakatev.github.io/blog/favicon.ico">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    
+    
+    
+    <link rel="stylesheet" href="https://aakatev.github.io/blog/styles/main.sass">
+
+    <title>
+  Counter Using Functional Approach in Javascript &ndash; Artem&#39;s Digital Garden
+</title>
+  </head>
+  <body class="mb-4">
+    <nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="https://aakatev.github.io/blog/">Artem's Digital Garden</a>
+  </div>
+</nav>
+    
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-lg-6">
+        <div class="mt-5 blog-post">
+          <h1 class="pb-4 mb-4 border-bottom">Counter Using Functional Approach in Javascript</h1>
+          <p><p>In my previous post, I showed my readers <a href="https://dev.to/aakatev/singleton-pattern-in-javascript-31gd">how to implement Singleton in JavaScript</a> using <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures">closure</a>, and <a href="https://developer.mozilla.org/en-US/docs/Glossary/IIFE">IIFE</a>.</p>
+<p>This time, I want to show you how to utilize the same building blocks, as well as one more functional programming technique, to implement a basic counter!</p>
+<p>Let&rsquo;s start with a counter that takes a starting number as an argument, and uses closure to keep track of the current count:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">from</span>(<span style="color:#a6e22e">start</span>) {
+  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">start</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+
+  <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">inc</span>() {
+    <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> 
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">i</span>
+  } 
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">inc</span> 
+}
+</code></pre></div><p>As you can see, I have outer function <code>from()</code> which takes parameter <code>start</code>. Then, I initialize <code>i</code>  with the value of <code>start - 1</code>, and enclose it in inner function <code>inc()</code>. Every time <code>inc()</code> is executed, it increases <code>i</code>, and returns it. Finally, the inner function is returned from the outer.</p>
+<p>Now, let&rsquo;s see how to use this counter:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript">(<span style="color:#66d9ef">function</span> () {
+  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">count</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">from</span>(<span style="color:#ae81ff">0</span>)
+
+  <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(
+      <span style="color:#a6e22e">count</span>()
+    )
+  }
+}())
+</code></pre></div><p>I wrapped the counter in anonymous IIFE, just because it is a good practice to separate variables from global scope, even when doing something as simple as this example.</p>
+<p>Notice, how closure allows this counter to have a &ldquo;memory&rdquo;. Similar technique can be utilized in order to implement <a href="https://en.wikipedia.org/wiki/Memoization">memoization</a> in more advanced and computationally heavy algorithms.</p>
+<p>Another thing I want to show you is a concept of higher-order functions. It is exactly what it sounds like:</p>
+<blockquote>
+<p>In mathematics and computer science, a higher-order function is a function that does at least one of the following: takes one or more functions as arguments, returns a function as its result.</p>
+</blockquote>
+<p>Actually, if you think about it, our function <code>from</code> already fall under definition of the higher-order function. It returns another function, <code>inc</code>. Let&rsquo;s make something that satisfy both properties of the definition!</p>
+<p>I will build a counter that starts counting from a given value, but doesn&rsquo;t count past certain limit. Past the limit, it returns <code>undefined</code>. I have the counting logic written in the example above, and only need to handle the limit part. A good approach is to create a function <code>to</code> that takes two arguments: a counter, and a limit. It then returns another function, that calls a counter, and makes sure the limit is not reached. Here is an implementation:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">to</span>(<span style="color:#a6e22e">counter</span>, <span style="color:#a6e22e">limit</span>) {
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">function</span>() {
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">counter</span>();
+    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">j</span> <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">limit</span>) {
+      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">undefined</span> 
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">j</span>
+  }
+}
+</code></pre></div><p>Notice, that in the example I am returning an anonymous function. I actually did it on purpose, in order to show a reader that JavaScript is pretty flexible in this extend. You can as well use an arrow function. It is all up to your particular implementation!</p>
+<p>Finally, I will include an example of the whole program:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">from</span>(<span style="color:#a6e22e">start</span>) {
+  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">start</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+
+  <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">inc</span>() {
+    <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> 
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">i</span>
+  } 
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">inc</span> 
+}
+
+
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">to</span>(<span style="color:#a6e22e">counter</span>, <span style="color:#a6e22e">limit</span>) {
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">function</span>() {
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">counter</span>();
+    <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">j</span> <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">limit</span>) {
+      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">undefined</span> 
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">j</span>
+  }
+}
+
+
+(<span style="color:#66d9ef">function</span> (){
+  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">count</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">to</span>(<span style="color:#a6e22e">from</span>(<span style="color:#ae81ff">3</span>), <span style="color:#ae81ff">10</span>);
+  
+  <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(
+      <span style="color:#a6e22e">count</span>()
+    )
+  }
+}())
+</code></pre></div><p>To sum up, I showed a reader how to use closure in order to implement a simple counter, and introduced a notion of higher-order function. Also, I gave a hint on how to implement memoization using approach from this example! If you have any questions, let me know in comments!</p>
+<p>Happy hacking!</p>
+</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+  </body>
+</html>

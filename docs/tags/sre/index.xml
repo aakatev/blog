@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sre on Artem&#39;s Digital Garden</title>
+    <link>https://aakatev.github.io/blog/tags/sre/</link>
+    <description>Recent content in sre on Artem&#39;s Digital Garden</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 09 Jul 2020 10:42:08 -0700</lastBuildDate><atom:link href="https://aakatev.github.io/blog/tags/sre/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>5 DevOps Books to Read for FREE</title>
+      <link>https://aakatev.github.io/blog/posts/5-devops-books-free/</link>
+      <pubDate>Thu, 09 Jul 2020 10:42:08 -0700</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/posts/5-devops-books-free/</guid>
+      <description>Since its very beginning, DevOps movement has been a pretty vast topic, with many followers worldwide. Considering constant iterations and creation of new software, it becomes clear that to succeed in the world of DevOps, you have to do your homework. It means staying up to date with the latest industry trends.
+Whether you are new to the movement, or you are a DevOps veteran, here is a great reading list that will help you to develop your skills.</description>
+    </item>
+    
+    <item>
+      <title>4 YouTube Resources to Get Started with Kubernetes</title>
+      <link>https://aakatev.github.io/blog/posts/4-kubernetes-youtube-resources/</link>
+      <pubDate>Tue, 07 Jul 2020 10:42:08 -0700</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/posts/4-kubernetes-youtube-resources/</guid>
+      <description>Kubernetes (K8s) is an open-source system for automating deployment, scaling, and management of containerized applications. It groups containers that make up an application into logical units for easy management and discovery.
+Kubernetes official website
+ Reading the definition from Kubernetes official website it becomes clear why people often feel frustrated starting to learn this technology. Today, I prepared a list of YouTube videos that will help you to learn Kubernetes and its architecture incrementally!</description>
+    </item>
+    
+  </channel>
+</rss>

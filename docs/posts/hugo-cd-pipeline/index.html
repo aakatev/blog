@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="shortcut icon" href="https://aakatev.github.io/blog/favicon.ico">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    
+    
+    
+    <link rel="stylesheet" href="https://aakatev.github.io/blog/styles/main.sass">
+
+    <title>
+  Implementing CD Pipeline for Static Website &ndash; Artem&#39;s Digital Garden
+</title>
+  </head>
+  <body class="mb-4">
+    <nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="https://aakatev.github.io/blog/">Artem's Digital Garden</a>
+  </div>
+</nav>
+    
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-lg-6">
+        <div class="mt-5 blog-post">
+          <h1 class="pb-4 mb-4 border-bottom">Implementing CD Pipeline for Static Website</h1>
+          <p><p>One day I decided to create a backup of all my <code>dev.to</code> posts. Programmers are lazy, so I wanted to do as little work as possible, and wanted the final result to look as nice as possible (or at least nicer than Markdown reader on GitHub).</p>
+<p>Final requirements for the project were the following:</p>
+<ul>
+<li>Fully static (cheap/free to host)</li>
+<li>Markdown support (copy and paste existing material)</li>
+<li>Continuous deployment (automation is good)</li>
+<li>Easy to maintain (easy is good)</li>
+</ul>
+<p>Based on the requirements, I decided on this simple workflow:</p>
+<ul>
+<li>The website is build with <a href="https://gohugo.io">Hugo</a></li>
+<li>The source code is stored in <a href="https://bitbucket.org/">BitBucket</a></li>
+<li>The deployment is done via <a href="https://circleci.com/">CircleCi</a></li>
+<li>The website is deployed and hosted in <a href="https://aws.amazon.com/s3/">AWS S3</a></li>
+<li>The AWS resources are managed by <a href="https://www.terraform.io/">Terraform</a></li>
+</ul>
+<h2 id="step-1-generate-a-new-hugo-website">Step 1: Generate a New Hugo Website</h2>
+<p>This step is straightforward, but also was the most time-consuming. I had to manually copy all of my posts into new Hugo project. If you are following my steps, Hugo has a great <a href="https://gohugo.io/getting-started/quick-start/">Getting Started guide</a>.</p>
+<h2 id="step-2-create-the-aws-resources">Step 2: Create the AWS Resources</h2>
+<p>I will be using Terraform to simplify this step. If you are not familiar with the tool, I have an <a href="https://dev.to/aakatev/deploy-ec2-instance-in-minutes-with-terraform-ip2">introductory level article</a> to get you going. For more detailed introduction, refer to <a href="https://learn.hashicorp.com/terraform">Terraform learning center</a>. Also, you can always <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html">create resources by hand</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-hcl" data-lang="hcl"><span style="color:#66d9ef">provider</span> <span style="color:#e6db74">&#34;aws&#34;</span> {
+  version <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;~&gt; 2.0&#34;</span>
+  region  <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;us-east-1&#34;</span>
+}
+
+<span style="color:#66d9ef">variable</span> <span style="color:#e6db74">&#34;static_bucket_name&#34;</span> {
+  type    <span style="color:#f92672">=</span> <span style="color:#66d9ef">string</span>
+  default <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;aakatev-blog&#34;</span>
+}
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_s3_bucket&#34; &#34;static_bucket&#34;</span> {
+  bucket <span style="color:#f92672">=</span> <span style="color:#66d9ef">var</span>.<span style="color:#66d9ef">static_bucket_name</span>
+  acl    <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;public-read&#34;</span>
+
+  force_destroy <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>
+
+  <span style="color:#66d9ef">website</span> {
+    index_document <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;index.html&#34;</span>
+  }
+
+  policy <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">&lt;&lt;-</span><span style="color:#66d9ef">EOT</span>
+    {
+      <span style="color:#e6db74">&#34;Version&#34;: &#34;2012-10-17&#34;</span>,
+      <span style="color:#e6db74">&#34;Statement&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
+          {
+              <span style="color:#e6db74">&#34;Sid&#34;: &#34;PublicReadGetObject&#34;</span>,
+              <span style="color:#e6db74">&#34;Effect&#34;: &#34;Allow&#34;</span>,
+              <span style="color:#e6db74">&#34;Principal&#34;: &#34;*&#34;</span>,
+              <span style="color:#e6db74">&#34;Action&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
+                  <span style="color:#e6db74">&#34;s3:GetObject&#34;</span>
+              ],
+              <span style="color:#e6db74">&#34;Resource&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
+                  <span style="color:#e6db74">&#34;arn:aws:s3:::${var.static_bucket_name}/*&#34;</span>
+              ]
+          }
+      ]
+    }
+  <span style="color:#66d9ef">EOT</span>
+}
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_iam_user&#34; &#34;circle_ci_user&#34;</span> {
+  name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;circle-ci&#34;</span>
+}
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_iam_access_key&#34; &#34;circle_ci_access_key&#34;</span> {
+  user <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_iam_user</span>.<span style="color:#66d9ef">circle_ci_user</span>.<span style="color:#66d9ef">name</span>
+}
+
+<span style="color:#66d9ef">resource</span> <span style="color:#e6db74">&#34;aws_iam_user_policy&#34; &#34;circle_ci_policy&#34;</span> {
+  name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;circle-ci-policy&#34;</span>
+  user <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_iam_user</span>.<span style="color:#66d9ef">circle_ci_user</span>.<span style="color:#66d9ef">name</span>
+
+  policy <span style="color:#f92672">=</span> <span style="color:#960050;background-color:#1e0010">&lt;&lt;-</span><span style="color:#66d9ef">EOT</span>
+    {
+      <span style="color:#e6db74">&#34;Version&#34;: &#34;2012-10-17&#34;</span>,
+      <span style="color:#e6db74">&#34;Statement&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
+          {
+              <span style="color:#e6db74">&#34;Effect&#34;: &#34;Allow&#34;</span>,
+              <span style="color:#e6db74">&#34;Action&#34;: &#34;s3:*&#34;</span>,
+              <span style="color:#e6db74">&#34;Resource&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> [
+                  <span style="color:#e6db74">&#34;arn:aws:s3:::${var.static_bucket_name}&#34;</span>,
+                  <span style="color:#e6db74">&#34;arn:aws:s3:::${var.static_bucket_name}/*&#34;</span>
+              ]
+          }
+      ]
+    }
+  <span style="color:#66d9ef">EOT</span>
+}
+
+<span style="color:#66d9ef">output</span> <span style="color:#e6db74">&#34;circle_ci_access_key&#34;</span> {
+  value <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_iam_access_key</span>.<span style="color:#66d9ef">circle_ci_access_key</span>.<span style="color:#66d9ef">id</span>
+}
+
+<span style="color:#66d9ef">output</span> <span style="color:#e6db74">&#34;circle_ci_access_key_secret&#34;</span> {
+  value <span style="color:#f92672">=</span> <span style="color:#66d9ef">aws_iam_access_key</span>.<span style="color:#66d9ef">circle_ci_access_key</span>.<span style="color:#66d9ef">secret</span>
+}
+</code></pre></div><p>If everything went well, your output for this step should look like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Apply complete! Resources: <span style="color:#ae81ff">4</span> added, <span style="color:#ae81ff">0</span> changed, <span style="color:#ae81ff">0</span> destroyed.
+
+Outputs:
+
+circle_ci_access_key <span style="color:#f92672">=</span> SOME_AWS_KEY_ID
+circle_ci_access_key_secret <span style="color:#f92672">=</span> SOME_AWS_KEY_SECRET
+</code></pre></div><p>These keys will need to be exported as environmental variables during CircleCI build.</p>
+<p><strong>Terraform will store the keys in its <a href="https://www.terraform.io/docs/state/index.html">state</a> as a plaintext. You are responsible for keeping their secrecy.</strong></p>
+<h2 id="step-3-store-the-source-code">Step 3: Store the Source Code</h2>
+<p>I will be using BitBucket as my version control, but GitHub will do the trick too. AFAIK there are no differences in CircleCI integration with both.</p>
+<p>Create a file <code>.circleci/config.yml</code> with the following content:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yml" data-lang="yml"><span style="color:#f92672">version</span>: <span style="color:#ae81ff">2</span>
+<span style="color:#f92672">jobs</span>:
+  <span style="color:#f92672">build</span>:
+    <span style="color:#f92672">docker</span>:
+      - <span style="color:#f92672">image</span>: <span style="color:#ae81ff">cibuilds/hugo:0.73</span>
+    <span style="color:#f92672">working_directory</span>: <span style="color:#ae81ff">/home/circleci/hugo</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">HUGO_DIR</span>: <span style="color:#ae81ff">/home/circleci/hugo</span>
+      <span style="color:#f92672">S3_BUCKET</span>: <span style="color:#ae81ff">aakatev-blog</span>
+    <span style="color:#f92672">steps</span>:
+      - <span style="color:#ae81ff">checkout</span>
+      - <span style="color:#f92672">run</span>: <span style="color:#ae81ff">git submodule sync &amp;&amp; git submodule update --init</span>
+      - <span style="color:#f92672">run</span>:
+          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">install AWS CLI (first install pip, the Python package manager)</span>
+          <span style="color:#f92672">command</span>: |<span style="color:#e6db74">
+</span><span style="color:#e6db74">            sudo apt install python-pip
+</span><span style="color:#e6db74">            pip install awscli</span>            
+      - <span style="color:#f92672">run</span>: <span style="color:#ae81ff">HUGO_ENV=production hugo -v -s $HUGO_DIR</span>
+
+      - <span style="color:#f92672">run</span>:
+          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">test our generated HTML files</span>
+          <span style="color:#f92672">command</span>: |<span style="color:#e6db74">
+</span><span style="color:#e6db74">            htmlproofer $HUGO_DIR/public --allow-hash-href --check-html \
+</span><span style="color:#e6db74">            --empty-alt-ignore --disable-external</span>            
+      - <span style="color:#f92672">deploy</span>:
+          <span style="color:#f92672">name</span>: <span style="color:#ae81ff">deploy to AWS</span>
+          <span style="color:#f92672">command</span>: |<span style="color:#e6db74">
+</span><span style="color:#e6db74">            if [ &#34;${CIRCLE_BRANCH}&#34; = &#34;master&#34; ]; then
+</span><span style="color:#e6db74">              aws s3 sync $HUGO_DIR/public \
+</span><span style="color:#e6db74">              s3://$S3_BUCKET/ --delete
+</span><span style="color:#e6db74">            else
+</span><span style="color:#e6db74">              echo &#34;Not master branch, dry run only&#34;
+</span><span style="color:#e6db74">            fi</span>            
+</code></pre></div><h2 id="step-4-configure-the-circleci-pipeline">Step 4: Configure the CircleCI pipeline</h2>
+<p>Besides <code>config.yml</code> CircleCI needs access keys, in order to have administrator access to the S3 bucket. Visit your <strong>Project Settings</strong> section:</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/i/iev9cf64ykko3b97c61q.png" alt="CircleCI configuration"></p>
+<p>For more information refer to CircleCI docs on <a href="https://circleci.com/docs/2.0/env-vars/">environmental variables</a>.</p>
+<h2 id="step-5-enjoy-the-result">Step 5: Enjoy the Result</h2>
+<p>At this point, the website is available for public, and you can view mine <a href="https://artem.lol">here</a>.</p>
+<p>In case, you followed, and want to see yours, the pattern for S3 domains is <code>http://&lt;bucket_name&gt;.s3-website-&lt;region&gt;-&lt;zone&gt;.amazonaws.com</code>.</p>
+<p>Since my website is a backup, I didn&rsquo;t really care about domain name, nor some other features a real blog should have. That said, it would be a logical future additions to the project.</p>
+</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+  </body>
+</html>
