@@ -6,7 +6,16 @@
     <description>Recent content in jamstack on Artem&#39;s Digital Garden</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 05 Sep 2020 10:42:08 -1500</lastBuildDate><atom:link href="https://aakatev.github.io/blog/tags/jamstack/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 10 Sep 2020 10:42:08 -0900</lastBuildDate><atom:link href="https://aakatev.github.io/blog/tags/jamstack/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Web Security Reference</title>
+      <link>https://aakatev.github.io/blog/projects/web-security-reference/</link>
+      <pubDate>Thu, 10 Sep 2020 10:42:08 -0900</pubDate>
+      
+      <guid>https://aakatev.github.io/blog/projects/web-security-reference/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>[Learn Hugo] Project Structure</title>
       <link>https://aakatev.github.io/blog/posts/learn-hugo/project-structure/</link>
